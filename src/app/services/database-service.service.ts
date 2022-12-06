@@ -36,7 +36,7 @@ export class DatabaseServiceService {
       var options: string[] = [];
       var sql: string = "CREATE TABLE IF NOT EXISTS users(" +
         " userId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-        " userName VARCHAR(40) NOT NULL," +
+        " userName VARCHAR(40) NOT NULL UNIQUE," +
         " firstName VARCHAR(40) NOT NULL," +
         " lastName VARCHAR(40)," +
         " userHeight DOUBLE NOT NULL," +
@@ -99,13 +99,55 @@ export class DatabaseServiceService {
 
   public selectUser(user: User, callback: any) {
     function txFunction(tx: any) {
-      let sql: string = "INSERT INTO users(userName, firstName, lastName, userHeight, userWeight, userGoalWeight, dateCreated) VALUES (?)";
-      let options = [user.userId];
+      let sql: string = "SELECT * FROM users WHERE userName=?;";
+      let options = [user.userName];
 
       tx.executeSql(sql, options, () => {
         console.info("Success: select user record successful");
       }, DatabaseServiceService.errorHandler);
     }
+
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
+      console.info(`Success: select ${user.userName}'s user record successful`);
+    });
+  }
+
+  public selectAllUser(user: User, callback: any) {
+    function txFunction(tx: any) {
+      let sql: string = "SELECT * FROM users;";
+      let options = [user.userName];
+
+      tx.executeSql(sql, options, () => {
+        console.info("Success: select user record successful");
+      }, DatabaseServiceService.errorHandler);
+    }
+
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
+      console.info(`Success: select ${user.userName}'s user record successful`);
+    });
+  }
+
+  public deleteUser(user: User, callback: any) {
+    function txFunction(tx: any) {
+      let sql: string = "DELETE FROM users WHERE userName=?;";
+      let options = [user.userName];
+
+      tx.executeSql(sql, options, () => {
+        console.info("Success: delete user record successful");
+      }, DatabaseServiceService.errorHandler);
+    }
+  }
+
+  public updateUser(user: User, callback: any) {
+      function txFunction(tx: any) {
+        let sql: string = "UPDATE users SET userName=?, firstName=?, lastName=?, userHeight=?, userWeight=?" +
+          "userGoalWeight=?;";
+        let options = [user.userName, user.firstName, user.lastName, user.userHeight, user.userWeight, user.userGoalWeight];
+
+        tx.executeSql(sql, options, () => {
+          console.info("Success: delete user record successful");
+        }, DatabaseServiceService.errorHandler);
+      }
 
     this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
       console.info(`Success: select ${user.userName}'s user record successful`);

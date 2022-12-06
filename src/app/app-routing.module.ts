@@ -14,7 +14,6 @@ const routes: Routes = [
   {path:'activity', component: ActivityJournalComponent},
   {path:'home', component: HomepageComponentComponent},
   {path:'food', component: FoodJournalComponent},
-
 ];
 
 @NgModule({
