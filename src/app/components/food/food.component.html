@@ -1,0 +1,101 @@
+<div class="m-4">
+  <div class="card">
+    <div class="card-header">
+      <h2>Add a Food</h2>
+    </div>
+    <div class="card-body">
+      <form #foodForm="ngForm">
+        <div class="mb-3">
+          <label for="txtFoodName" class="form-label">Food Name</label>
+          <input
+            type="text"
+            id="txtFoodName"
+            name="txtFoodName"
+            class="form-control"
+            required minlength="2"
+            [(ngModel)]="objFood.foodName"
+            #foodName="ngModel">
+        </div>
+
+        <div *ngIf="foodName.invalid && (foodName.dirty || foodName.touched)"
+             class="alert">
+          <small *ngIf="foodName.errors?.['required']" [ngClass]="'validation-error'">
+            A food name is required.
+          </small>
+          <small *ngIf="foodName.errors?.['minlength']" [ngClass]="'validation-error'">
+            Name must be at least 2 characters long.
+          </small>
+        </div>
+
+        <div class="mb-3">
+          <label for="txtCalories" class="form-label">Calories</label>
+          <input type="number" id="txtCalories" name="txtCalories" class="form-control"
+                 required max="9999"
+                 [(ngModel)]="objFood.calories" #calories="ngModel">
+        </div>
+
+        <div *ngIf="calories.invalid && (calories.dirty || calories.touched)"
+             class="alert">
+          <small *ngIf="calories.errors?.['required']" [ngClass]="'validation-error'">
+            Calories are required.
+          </small>
+          <small *ngIf="calories.errors?.['max']" [ngClass]="'validation-error'">
+            Maximum value allowed is 9999
+          </small>
+        </div>
+
+        <div class="mb-3">
+          <label for="txtFatGrams" class="form-label">Grams of Fat</label>
+          <input type="number" id="txtFatGrams" name="txtFatGrams" class="form-control"
+                 max="9999"
+                 [(ngModel)]="objFood.fatGrams" #fatGrams="ngModel">
+        </div>
+
+        <div *ngIf="fatGrams.invalid && (fatGrams.dirty || fatGrams.touched)"
+             class="alert">
+          <small *ngIf="fatGrams.errors?.['max']" [ngClass]="'validation-error'">
+            Maximum value allowed is 9999
+          </small>
+        </div>
+
+        <div class="mb-3">
+          <label for="txtCarbGrams" class="form-label">Grams of Carbohydrates</label>
+          <input type="number" id="txtCarbGrams" name="txtCarbGrams" class="form-control"
+                 max="9999"
+                 [(ngModel)]="objFood.carbGrams" #carbGrams="ngModel">
+        </div>
+
+        <div *ngIf="carbGrams.invalid && (carbGrams.dirty || carbGrams.touched)"
+             class="alert">
+          <small *ngIf="carbGrams.errors?.['max']" [ngClass]="'validation-error'">
+            Maximum value allowed is 9999
+          </small>
+        </div>
+
+        <div class="mb-3">
+          <label for="txtProteinGrams" class="form-label">Grams of Protein</label>
+          <input type="number" id="txtProteinGrams" name="txtProteinGrams" class="form-control"
+                 max="9999"
+                 [(ngModel)]="objFood.proteinGrams" #proteinGrams="ngModel">
+        </div>
+
+        <div *ngIf="proteinGrams.invalid && (proteinGrams.dirty || proteinGrams.touched)"
+             class="alert">
+          <small *ngIf="proteinGrams.errors?.['max']" [ngClass]="'validation-error'">
+            Maximum value allowed is 9999
+          </small>
+        </div>
+
+        <button type="button" id="btnAdd" name="btnAdd"
+                class="btn btn-primary"
+                (click)="btnAdd_click()" [disabled]="!foodForm.valid">
+          Add
+        </button>
+      </form>
+    </div>
+    <p *ngIf="!foodForm.valid" [ngClass]="'validation-error'"></p>
+    <div class="card-footer">
+      {{foodForm.value | json}}
+    </div>
+  </div>
+</div>

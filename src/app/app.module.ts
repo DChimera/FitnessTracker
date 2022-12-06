@@ -9,6 +9,8 @@ import { AboutComponentComponent } from './about-component/about-component.compo
 import { FoodJournalComponent } from './food-journal/food-journal.component';
 import { ActivityJournalComponent } from './activity-journal/activity-journal.component';
 import { RoutingComponentComponent } from './routing-component/routing-component.component';
+import { FoodComponent } from './components/food/food.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -18,11 +20,13 @@ import { RoutingComponentComponent } from './routing-component/routing-component
     AboutComponentComponent,
     FoodJournalComponent,
     ActivityJournalComponent,
-    RoutingComponentComponent
+    RoutingComponentComponent,
+    FoodComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

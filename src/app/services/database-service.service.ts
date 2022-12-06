@@ -97,6 +97,21 @@ export class DatabaseServiceService {
     });
   }
 
+  public insertFood(food: Food, callback: any){
+    function txFunction(tx: any) {
+      let sql: string = "INSERT INTO foods(foodName, calories, fatGrams, carbGrams, proteinGrams, userId) VALUES (?, ?, ?, ?, ? , ?)";
+      let options = [food.foodName, food.calories, food.fatGrams, food.carbGrams, food.proteinGrams, food.userId];
+
+      tx.executeSql(sql, options, () => {
+        console.info("Success: food user record successful");
+      }, DatabaseServiceService.errorHandler);
+    }
+
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
+      console.info("Success: food user record successful");
+    });
+  }
+
   public selectUser(user: User, callback: any) {
     function txFunction(tx: any) {
       let sql: string = "SELECT * FROM users WHERE userName=?;";
