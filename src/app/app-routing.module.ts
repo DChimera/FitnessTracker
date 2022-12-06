@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AboutComponentComponent } from "./about-component/about-component.component";
-import { ActivityJournalComponent } from "./activity-journal/activity-journal.component";
-import { FoodJournalComponent } from "./food-journal/food-journal.component";
-import { HomepageComponentComponent } from "./homepage-component/homepage-component.component";
-import { LoginComponentComponent } from "./login-component/login-component.component";
+import { AboutComponentComponent } from "./components/about-component/about-component.component";
+import { ActivityJournalComponent } from "./components/activity-journal/activity-journal.component";
+import { FoodJournalComponent } from "./components/food-journal/food-journal.component";
+import { HomepageComponentComponent } from "./components/homepage-component/homepage-component.component";
+import { LoginComponentComponent } from "./components/login-component/login-component.component";
 
 const routes: Routes = [
 
