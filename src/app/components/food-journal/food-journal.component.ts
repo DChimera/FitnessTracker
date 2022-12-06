@@ -1,22 +1,27 @@
-import { Component, OnInit} from '@angular/core';
-import {FoodserviceService} from "../services/foodservice.service";
-import {Food} from "../models/food.model";
+import {Component, OnInit} from '@angular/core';
+import {FoodserviceService} from "../../services/foodservice.service";
+import {Food} from "../../models/food.model";
+import {DatabaseServiceService} from "../../services/database-service.service";
+
 @Component({
   selector: 'app-food-journal',
   templateUrl: './food-journal.component.html',
   styleUrls: ['./food-journal.component.css']
 })
-export class FoodJournalComponent implements OnInit{
-  foodJournal: Food[] | undefined;
-
-  constructor(private foodservice: FoodserviceService) {
+export class FoodJournalComponent implements OnInit {
+  constructor(private database: DatabaseServiceService) {
   }
+
   ngOnInit(): void {
-    this.foodJournal=this.foodservice.getFoodJournal();
-    for(let mFood of this.foodJournal){
-      console.log(mFood.foodName)
-    }
+    this.database.initDB();
   }
 
-
+  btnAdd_click() {
+    this.database.insertFood(this.objFood, () => (
+      console.log("Food record added successfully")
+    ));
+    alert("Record added successfully");
+  }
+  objFood: Food = new Food();
 }
+
