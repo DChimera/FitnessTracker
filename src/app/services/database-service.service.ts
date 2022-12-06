@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Activity } from '../models/activity.model';
-import { Food } from '../models/food.model';
 import { User } from '../models/user.model';
+import { Food } from '../models/food.model';
+//import { Activity } from '../models/activity.model';
+
+
 
 declare function openDatabase(shortName: string, version: string, displayName: string,
                               dbSize: number, dbCreateSuccess: () => void): any;
@@ -32,34 +34,81 @@ export class DatabaseServiceService {
   private createTables(): void {
     function txFunction(tx: any): void {
       var options: string[] = [];
-      var sql: string = "CREATE TABLE IF NOT EXISTS activities(" +
-        " id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-        " name VARCHAR(20) NOT NULL," +
-        " price DOUBLE);";
+      var sql: string = "CREATE TABLE IF NOT EXISTS users(" +
+        " userId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+        " userName VARCHAR(40) NOT NULL," +
+        " firstName VARCHAR(40) NOT NULL," +
+        " lastName VARCHAR(40)," +
+        " userHeight DOUBLE NOT NULL," +
+        " userWeight DOUBLE NOT NULL," +
+        " userGoalWeight DOUBLE NOT NULL," +
+        " dateCreated DATE NOT NULL);";
 
       tx.executeSql(sql, options, () => {
-        console.info("Success: create table successful");
+        console.info("Success: create table users successful");
       }, DatabaseServiceService.errorHandler);
 
+      sql = "CREATE TABLE IF NOT EXISTS food(" +
+        " foodId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+        " foodName VARCHAR(60) NOT NULL," +
+        " calories DOUBLE NOT NULL," +
+        " fatGrams DOUBLE NOT NULL," +
+        " carbGrams DOUBLE NOT NULL," +
+        " proteinGrams DOUBLE NOT NULL," +
+        " userId INTEGER NOT NULL," +
+        " FOREIGN KEY(userId) REFERENCES users(userId));";
+
+      tx.executeSql(sql, options, () => {
+        console.info("Success: create table food successful");
+      }, DatabaseServiceService.errorHandler);
+
+      sql = "CREATE TABLE IF NOT EXISTS activities(" +
+        " foodId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+        " foodName VARCHAR(60) NOT NULL," +
+        " calories DOUBLE NOT NULL," +
+        " fatGrams DOUBLE NOT NULL," +
+        " carbGrams DOUBLE NOT NULL," +
+        " proteinGrams DOUBLE NOT NULL," +
+        " userId INTEGER NOT NULL," +
+        " FOREIGN KEY(userId) REFERENCES users(userId));";
+
+      tx.executeSql(sql, options, () => {
+        console.info("Success: create table activities successful");
+      }, DatabaseServiceService.errorHandler);
 
     }
     this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
-      console.log("Success: Table creation transaction successful");
+      console.log("Success: All tables created successfully");
     });
   }
 
-  public insertActivity(activity: Activity, callback: any) {
+  public insertUser(user: User, callback: any) {
     function txFunction(tx: any) {
-      let sql: string = "INSERT INTO products(name, price) VALUES (?,?)";
-      let options = [activity.prodName, activity.price];
+      let sql: string = "INSERT INTO users(userName, firstName, lastName, userHeight, userWeight, userGoalWeight, dateCreated) VALUES (?,?,?,?,?,?,?)";
+      let options = [user.userName, user.firstName, user.lastName, user.userHeight, user. userWeight, user.userGoalWeight, user.dateCreated];
 
       tx.executeSql(sql, options, () => {
-        console.info("Success: insert activity record successful");
+        console.info("Success: insert user record successful");
       }, DatabaseServiceService.errorHandler);
     }
 
     this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
-      console.info("Success: insert activity record successful");
+      console.info("Success: insert user record successful");
+    });
+  }
+
+  public selectUser(user: User, callback: any) {
+    function txFunction(tx: any) {
+      let sql: string = "INSERT INTO users(userName, firstName, lastName, userHeight, userWeight, userGoalWeight, dateCreated) VALUES (?)";
+      let options = [user.userId];
+
+      tx.executeSql(sql, options, () => {
+        console.info("Success: select user record successful");
+      }, DatabaseServiceService.errorHandler);
+    }
+
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
+      console.info(`Success: select ${user.userName}'s user record successful`);
     });
   }
 
