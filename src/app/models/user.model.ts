@@ -6,12 +6,12 @@ export class User {
   userWeight: any = null;
   dateCreated: any = null;
 
-  constructor(userName: string, firstName: string, lastName: string, userHeight: double, userWeight: double) {
+  constructor(userName: string, firstName: string, lastName: string, userHeight: number, userWeight: number) {
     this.userName = userName;
     this.firstName = firstName;
     this.lastName = lastName;
     this.userHeight = userHeight;
     this.userWeight = userWeight;
-    this.dateCreated = new Date();
+    this.dateCreated = String(new Date());
   }
 }
