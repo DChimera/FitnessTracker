@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./activity-journal.component.css']
 })
 export class ActivityJournalComponent {
-
+btnAdd_click(){
+  alert("Activitity added successfuly");
+}
 }
