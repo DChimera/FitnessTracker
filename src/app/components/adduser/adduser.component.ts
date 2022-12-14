@@ -9,7 +9,7 @@ import { DatabaseServiceService } from "../../services/database-service.service"
 })
 export class AdduserComponent implements OnInit{
   Gender: any = ["Male", "Female", "Other"];
-  objUser: User = new User();
+  objUser: User = new User("","","","",0,0,0);
 
   constructor(private database: DatabaseServiceService) { }
 
