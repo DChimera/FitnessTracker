@@ -1,10 +1,23 @@
 <header>
 
-  <h1>Welcome Back, {{_user.firstName}} {{_user.lastName}}</h1>
+  <header>
+
+    <nav class="nav justify-content-left">
+
+      <a class="nav-link" routerLink="/home">Home</a>
+      <a class="nav-link" routerLink="/food">Food Journal</a>
+      <a class="nav-link" routerLink="/activity">Activity Journal</a>
+      <a class="nav-link" routerLink="/about">About</a>
+
+    </nav>
+
+  </header>
 
 </header>
 
 <section data-role="content">
+
+  <h1>Welcome Back, {{user.firstName}} {{user.lastName}}</h1>
 
   <div class="mt-2">
 
@@ -29,21 +42,21 @@
           <tr>
 
             <td>Gender: </td>
-            <td>{{_user.gender}}</td>
+            <td>{{user.gender}}</td>
 
           </tr>
 
           <tr>
 
             <td>Height: </td>
-            <td>{{_user.userHeight}}</td>
+            <td>{{user.userHeight}}</td>
 
           </tr>
 
           <tr>
 
             <td>Current Weight: </td>
-            <td>{{_user.userWeight}}</td>
+            <td>{{user.userWeight}}</td>
 
           </tr>
 
@@ -64,7 +77,7 @@
           <tr>
 
             <td>Goal Weight: </td>
-            <td>{{goalWeight}}</td>
+            <td>{{user.userGoalWeight}}</td>
 
           </tr>
 
