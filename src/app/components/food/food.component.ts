@@ -9,6 +9,8 @@ import {DatabaseServiceService} from "../../services/database-service.service";
   styleUrls: ['./food.component.css']
 })
 export class FoodComponent implements OnInit {
+  objFood: Food = new Food();
+
   constructor(private database: DatabaseServiceService) {
   }
 
@@ -22,5 +24,4 @@ export class FoodComponent implements OnInit {
     ));
     alert("Record added successfully");
   }
-  objFood: Food = new Food();
 }

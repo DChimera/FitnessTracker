@@ -113,6 +113,45 @@ export class DatabaseServiceService {
     });
   }
 
+  public selectAllFood(): Promise<any> {
+    let options: string[] = [];
+    let foods: Food[] = [];
+    return new Promise((resolve, reject) => {
+      function txFunction(tx: any) {
+        let sql = "SELECT * FROM food;";
+        tx.executeSql(sql, options, (tx: any, results: { rows: string | any[]; }) => {
+          if (results.rows.length > 0) {
+            for (let i = 0; i < results.rows.length; i++) {
+              let row = results.rows[i];
+              let pdt = new Food(row['foodName'], row['calories'], row['fatGrams'], row['carbGrams'], row['proteinGrams'],);
+              pdt.id = row['id'];
+              foods.push(pdt);
+            }
+            resolve(foods);
+          }
+          else {
+            reject("No foods found");
+          }
+        }, DatabaseServiceService.errorHandler);
+      }
+      this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
+        console.log('Success: selectAll transaction successful');
+      });
+    });
+  }
+
+  public deleteFood(food: Food, callback: () => void) {
+    function txFunction(tx: any) {
+      var sql: string = 'DELETE FROM food WHERE id=?;';
+      var options = [food.id];
+      tx.executeSql(sql, options, callback, DatabaseServiceService.errorHandler);
+    }
+
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
+      console.log('Success: food deleted successfully');
+    });
+  }
+
   public selectUser(user: User, callback: any) {
     function txFunction(tx: any) {
       let sql: string = "SELECT * FROM users WHERE userName=?;";

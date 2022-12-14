@@ -1,4 +1,5 @@
 export class Food{
+  id: number = -1;
   foodName: any=null;
   calories: any=null;
   fatGrams: any=null;

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FoodserviceService} from "../../services/foodservice.service";
 import {Food} from "../../models/food.model";
 import {DatabaseServiceService} from "../../services/database-service.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-food-journal',
@@ -9,11 +10,20 @@ import {DatabaseServiceService} from "../../services/database-service.service";
   styleUrls: ['./food-journal.component.css']
 })
 export class FoodJournalComponent implements OnInit {
-  constructor(private database: DatabaseServiceService) {
+  objFood: Food = new Food();
+  foods: Food[] = [];
+  constructor(private database: DatabaseServiceService, private router: Router) {
   }
 
   ngOnInit(): void {
-    this.database.initDB();
+    this.database.selectAllFood()
+      .then(data=> {
+        this.foods=data;
+        console.info(data);
+      })
+      .catch(err =>{
+        console.error(err);
+      })
   }
 
   btnAdd_click() {
@@ -22,6 +32,10 @@ export class FoodJournalComponent implements OnInit {
     ));
     alert("Record added successfully");
   }
-  objFood: Food = new Food();
+  btnDelete_click(food: any){
+    this.database.deleteFood(food, ()=>{
+    alert("Food deleted successfully.");
+    });
+  }
 }
 
