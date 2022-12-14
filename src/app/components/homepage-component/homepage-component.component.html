@@ -1,6 +1,6 @@
 <header>
 
-  <h1>Welcome Back, {{user}} </h1>
+  <h1>Welcome Back, {{_user.firstName}} {{_user.lastName}}</h1>
 
 </header>
 
@@ -29,21 +29,21 @@
           <tr>
 
             <td>Gender: </td>
-            <td>{{gender}}</td>
+            <td>{{_user.gender}}</td>
 
           </tr>
 
           <tr>
 
             <td>Height: </td>
-            <td>{{height}}</td>
+            <td>{{_user.userHeight}}</td>
 
           </tr>
 
           <tr>
 
             <td>Current Weight: </td>
-            <td>{{weight}}</td>
+            <td>{{_user.userWeight}}</td>
 
           </tr>
 

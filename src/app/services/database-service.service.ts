@@ -165,6 +165,30 @@ export class DatabaseServiceService {
     this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
   }
 
+  public _selectUser(id: number): Promise<any> {
+    let options = [id];
+    let user: User;
+    return new Promise((resolve, reject) => {
+      function txFunction(tx: any) {
+        let sql = "SELECT * FROM products WHERE id=?;";
+        tx.executeSql(sql, options, (tx: any, results: { rows: string | any[]; }) => {
+          if (results.rows.length > 0) {
+            let row = results.rows[0];
+            user = new User(row['firstName'], row['lastName'], row['userGender'], row ['userHeight'], row['userWeight'], row['userGoalWeight'], row['dateCreated']);
+            user.id = row['id'];
+            resolve(user);
+          }
+          else {
+            reject("No product found");
+          }
+        }, DatabaseServiceService.errorHandler);
+      }
+      this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
+        console.log('Success: select transaction successful');
+      });
+    });
+  }
+
   public selectAllUser(): Promise<any> {
     let options: string[] = [];
     let users: User[] = [];
