@@ -39,6 +39,7 @@ export class DatabaseServiceService {
         " userName VARCHAR(40) NOT NULL UNIQUE," +
         " firstName VARCHAR(40) NOT NULL," +
         " lastName VARCHAR(40)," +
+        " userGender VARCHAR(10)," +
         " userHeight DOUBLE NOT NULL," +
         " userWeight DOUBLE NOT NULL," +
         " userGoalWeight DOUBLE NOT NULL," +
@@ -122,24 +123,20 @@ export class DatabaseServiceService {
       }, DatabaseServiceService.errorHandler);
     }
 
-    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
-      console.info(`Success: select ${user.userName}'s user record successful`);
-    });
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
   }
 
-  public selectAllUser(user: User, callback: any) {
+  public selectAllUser(callback: any) {
     function txFunction(tx: any) {
       let sql: string = "SELECT * FROM users;";
-      let options = [user.userName];
+      let options: any = [];
 
       tx.executeSql(sql, options, () => {
         console.info("Success: select user record successful");
       }, DatabaseServiceService.errorHandler);
     }
 
-    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
-      console.info(`Success: select ${user.userName}'s user record successful`);
-    });
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
   }
 
   public deleteUser(user: User, callback: any) {
