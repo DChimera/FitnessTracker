@@ -10,10 +10,11 @@ import { FoodJournalComponent } from './components/food-journal/food-journal.com
 import { ActivityJournalComponent } from './components/activity-journal/activity-journal.component';
 import { RoutingComponentComponent } from './components/routing-component/routing-component.component';
 import { FoodComponent } from './components/food/food.component';
-import {FormsModule} from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 import { AdduserComponent } from './components/adduser/adduser.component';
 
 @NgModule({
+
   declarations: [
     AppComponent,
     LoginComponentComponent,
