@@ -12,3 +12,82 @@
 </header>
 
 <p>activity-journal works!</p>
+<div class="m-4">
+  <div class="card">
+    <div class="card-header">
+      <h2>activity-journal works!</h2>
+    </div>
+    <div class="card-body">
+      <form #activityForm="ngForm">
+        <div class="mb-3">
+          <label for="txtActivityName" class="form-label">Activity Name</label>
+          <input
+            type="text"
+            id="txtActivityName"
+            name="txtActivityName"
+             ngModel
+            class="form-control"
+            required minlength="2"
+            [(ngModel)]="objActivity.activityName"
+            #activityName="ngModel">
+
+          <div *ngIf="activityName.invalid && (activityName.dirty || activityName.touched)"
+               class="alert">
+            <small *ngIf="activityName.errors?.['required']" [ngClass]="'validation-error'">
+              A activity name is required.
+            </small>
+            <small *ngIf="activityName.errors?.['minlength']" [ngClass]="'validation-error'">
+              Name must be at least 2 characters long.
+            </small>
+          </div>
+
+          <div class="mb-3">
+            <label for="txtCalories" class="form-label">Calories</label>
+            <input type="number" id="txtCalories" name="txtCalories" class="form-control"
+                   required max="9999"
+                   [(ngModel)]="objActivity.calories" #calories="ngModel">
+          </div>
+          <div *ngIf="calories.invalid && (calories.dirty || calories.touched)"
+               class="alert">
+            <small *ngIf="calories.errors?.['required']" [ngClass]="'validation-error'">
+              Calories are required.
+            </small>
+            <small *ngIf="calories.errors?.['max']" [ngClass]="'validation-error'">
+              Maximum value allowed is 9999
+            </small>
+          </div>
+
+          <div *ngIf="calories.invalid && (calories.dirty || calories.touched)"
+               class="alert">
+            <small *ngIf="calories.errors?.['required']" [ngClass]="'validation-error'">
+              Calories are required.
+            </small>
+            <small *ngIf="calories.errors?.['max']" [ngClass]="'validation-error'">
+              Maximum value allowed is 9999
+            </small>
+          </div>
+
+
+
+        <div class="mb-3">
+          <label for="txtType" class="form-label">Type</label>
+          <input type="text" id="txtType" name="txtType"
+                 class="form-control" ngModel>
+        </div>
+        <button type="button" id="btnAdd" name="btnAdd"
+                class="btn btn-primary"
+                (click)="btnAdd_click()">
+          Add
+        </button>
+        </div>
+      </form>
+
+
+    </div>
+    <div class="card-footer">
+      {{activityForm.value | json}}
+    </div>
+
+  </div>
+</div>
+
