@@ -1,4 +1,5 @@
 export class User {
+  id: number = -1;
   userName: any = null;
   firstName: any = null;
   lastName: any = null;

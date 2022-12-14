@@ -11,6 +11,7 @@ import { ActivityJournalComponent } from './activity-journal/activity-journal.co
 import { RoutingComponentComponent } from './routing-component/routing-component.component';
 import { FoodComponent } from './components/food/food.component';
 import {FormsModule} from "@angular/forms";
+import { AdduserComponent } from './components/adduser/adduser.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {FormsModule} from "@angular/forms";
     FoodJournalComponent,
     ActivityJournalComponent,
     RoutingComponentComponent,
-    FoodComponent
+    FoodComponent,
+    AdduserComponent
   ],
   imports: [
     BrowserModule,

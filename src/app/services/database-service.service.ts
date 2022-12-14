@@ -165,17 +165,30 @@ export class DatabaseServiceService {
     this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
   }
 
-  public selectAllUser(callback: any) {
-    function txFunction(tx: any) {
-      let sql: string = "SELECT * FROM users;";
-      let options: any = [];
-
-      tx.executeSql(sql, options, () => {
-        console.info("Success: select user record successful");
-      }, DatabaseServiceService.errorHandler);
-    }
-
-    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
+  public selectAllUser(): Promise<any> {
+    let options: string[] = [];
+    let users: User[] = [];
+    return new Promise((resolve, reject) => {
+      function txFunction(tx: any) {
+        let sql: string = "SELECT * FROM users;";
+        tx.executeSql(sql, options, (tx: any, results: { rows: string | any[]; }) => {
+          if (results.rows.length > 0) {
+            for (let i = 0; i < results.rows.length; i++) {
+              let row = results.rows[i];
+              let usr = new User(row['userName'], row['firstName'], row['lastName'], row['userGender'], row['userHeight'], row['userWeight'], row['userGoalWeight']);
+              usr.id = row['id'];
+              users.push(usr);
+            }
+            resolve(users);
+          } else {
+            reject("No users found");
+          }
+        }, DatabaseServiceService.errorHandler);
+      }
+      this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
+        console.info("Success: select all user records successful");
+      });
+    });
   }
 
   public deleteUser(user: User, callback: any) {

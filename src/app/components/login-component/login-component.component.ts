@@ -8,19 +8,18 @@ import { DatabaseServiceService } from "../../services/database-service.service"
   styleUrls: ['./login-component.component.css']
 })
 export class LoginComponentComponent implements OnInit {
-  Users: User[] = [];
+  users: User[] = [];
 
   constructor(private database: DatabaseServiceService) { }
 
   ngOnInit(): void {
     this.database.initDB();
-  }
-
-  getUsers(): void {
-    this.database.selectAllUser(callback);
-
-    function callback(tx: any, results: any) {
-
-    }
+    this.database.selectAllUser()
+      .then(data => {
+        this.users = data;
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 }
