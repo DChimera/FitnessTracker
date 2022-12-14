@@ -92,7 +92,6 @@ export class DatabaseServiceService {
         console.info("Success: insert user record successful");
       }, DatabaseServiceService.errorHandler);
     }
-
     this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
       console.info("Success: insert user record successful");
     });
@@ -150,19 +149,6 @@ export class DatabaseServiceService {
     this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
       console.log('Success: food deleted successfully');
     });
-  }
-
-  public selectUser(user: User, callback: any) {
-    function txFunction(tx: any) {
-      let sql: string = "SELECT * FROM users WHERE userName=?;";
-      let options = [user.userName];
-
-      tx.executeSql(sql, options, () => {
-        console.info("Success: select user record successful");
-      }, DatabaseServiceService.errorHandler);
-    }
-
-    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
   }
 
   public _selectUser(id: number): Promise<any> {

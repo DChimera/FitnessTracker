@@ -5,11 +5,13 @@ import { ActivityJournalComponent } from "./components/activity-journal/activity
 import { FoodJournalComponent } from "./components/food-journal/food-journal.component";
 import { HomepageComponentComponent } from "./components/homepage-component/homepage-component.component";
 import { LoginComponentComponent } from "./components/login-component/login-component.component";
+import { AdduserComponent } from "./components/adduser/adduser.component";
 
 const routes: Routes = [
 
   {path:'', component: LoginComponentComponent},
   {path:'login', component: LoginComponentComponent},
+  {path:'login/adduser', component: AdduserComponent},
   {path:'about', component: AboutComponentComponent},
   {path:'activity', component: ActivityJournalComponent},
   {path:'home', component: HomepageComponentComponent},

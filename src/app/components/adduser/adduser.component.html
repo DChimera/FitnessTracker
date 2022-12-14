@@ -1,14 +1,159 @@
-<header>
+<div class="m-4">
+  <div class="card">
+    <div class="card-header">
+      <h2>Add A New User</h2>
+    </div>
+    <div class="card-body">
+      <form #userForm="ngForm">
+        <div class="mb-3">
+          <label for="txtUserName" class="form-label">User Name</label>
+          <input
+            type="text"
+            id="txtUserName"
+            name="txtUserName"
+            class="form-control"
+            required minlength="6"
+            [(ngModel)]="objUser.userName"
+            #userName="ngModel">
+        </div>
 
-  <nav class="nav justify-content-left">
+        <div *ngIf="userName.invalid && (userName.dirty || userName.touched)"
+             class="alert">
+          <small *ngIf="userName.errors?.['required']" [ngClass]="'validation-error'">
+            Name is required.
+          </small>
+          <small *ngIf="userName.errors?.['minlength']" [ngClass]="'validation-error'">
+            Name must be at least 6 characters long.
+          </small>
+        </div>
 
-    <a class="nav-link" routerLink="/home">Home</a>
-    <a class="nav-link" routerLink="/food">Food Journal</a>
-    <a class="nav-link" routerLink="/activity">Activity Journal</a>
-    <a class="nav-link" routerLink="/about">About</a>
+        <div class="mb-3">
+          <label for="txtFirstName" class="form-label">First Name</label>
+          <input
+            type="text"
+            id="txtFirstName"
+            name="txtFirstName"
+            class="form-control"
+            required
+            [(ngModel)]="objUser.firstName"
+            #firstName="ngModel">
+        </div>
 
-  </nav>
+        <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)"
+             class="alert">
+          <small *ngIf="firstName.errors?.['required']" [ngClass]="'validation-error'">
+            First name is required.
+          </small>
+        </div>
 
-</header>
+        <div class="mb-3">
+          <label for="txtLastName" class="form-label">Last Name</label>
+          <input
+            type="text"
+            id="txtLastName"
+            name="txtLastName"
+            class="form-control"
+            required
+            [(ngModel)]="objUser.lastName"
+            #lastName="ngModel">
+        </div>
 
-<p>adduser works!</p>
+        <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)"
+             class="alert">
+          <small *ngIf="lastName.errors?.['required']" [ngClass]="'validation-error'">
+            Last name is required.
+          </small>
+        </div>
+
+        <div class="mb-3">
+          <label for="txtUserGender" class="form-label">Gender</label>
+          <select class="form-select" id="txtUserGender" name="txtUserGender"
+                  [(ngModel)]="objUser.userGender" #userGender="ngModel">
+            <option value="">Select a Gender</option>
+            <option *ngFor="let gender of Gender" ngValue="gender">{{gender}}</option>
+          </select>
+        </div>
+
+        <div *ngIf="userGender.invalid && (userGender.dirty || userGender.touched)"
+             class="alert">
+          <small *ngIf="userGender.errors?.['required']" [ngClass]="'validation-error'">
+            A gender is required.
+          </small>
+        </div>
+
+        <div class="mb-3">
+          <label for="txtUserHeight" class="form-label">Height(cm)</label>
+          <input type="number" id="txtUserHeight" name="txtUserHeight" class="form-control"
+                 required min="1" max="300"
+                 [(ngModel)]="objUser.userHeight" #userHeight="ngModel">
+        </div>
+
+        <div *ngIf="userHeight.invalid && (userHeight.dirty || userHeight.touched)"
+             class="alert">
+          <small *ngIf="userHeight.errors?.['required']" [ngClass]="'validation-error'">
+            Height is required.
+          </small>
+          <small *ngIf="userHeight.errors?.['min']" [ngClass]="'validation-error'">
+            Minimum value required is 1
+          </small>
+          <small *ngIf="userHeight.errors?.['max']" [ngClass]="'validation-error'">
+            Maximum value allowed is 300
+          </small>
+        </div>
+
+        <div class="mb-3">
+          <label for="txtUserWeight" class="form-label">Weight(lbs)</label>
+          <input type="number" id="txtUserWeight" name="txtUserWeight" class="form-control"
+                 required min="1" max="999"
+                 [(ngModel)]="objUser.userWeight" #userWeight="ngModel">
+        </div>
+
+        <div *ngIf="userWeight.invalid && (userWeight.dirty || userWeight.touched)"
+             class="alert">
+          <small *ngIf="userWeight.errors?.['required']" [ngClass]="'validation-error'">
+            Weight is required.
+          </small>
+          <small *ngIf="userWeight.errors?.['min']" [ngClass]="'validation-error'">
+            Minimum value required is 1
+          </small>
+          <small *ngIf="userWeight.errors?.['max']" [ngClass]="'validation-error'">
+            Maximum value allowed is 999
+          </small>
+        </div>
+
+        <div class="mb-3">
+          <label for="txtUserGoalWeight" class="form-label">Goal Weight(lbs)</label>
+          <input type="number" id="txtUserGoalWeight" name="txtUserGoalWeight" class="form-control"
+                 required min="1" max="999"
+                 [(ngModel)]="objUser.userGoalWeight" #userGoalWeight="ngModel">
+        </div>
+
+        <div *ngIf="userGoalWeight.invalid && (userGoalWeight.dirty || userGoalWeight.touched)"
+             class="alert">
+          <small *ngIf="userGoalWeight.errors?.['required']" [ngClass]="'validation-error'">
+            Goal weight is required.
+          </small>
+          <small *ngIf="userGoalWeight.errors?.['min']" [ngClass]="'validation-error'">
+            Minimum value required is 1
+          </small>
+          <small *ngIf="userGoalWeight.errors?.['max']" [ngClass]="'validation-error'">
+            Maximum value allowed is 999
+          </small>
+        </div>
+        <div class="form-group">
+          <button type="button" id="btnAdd" name="btnAdd"
+                  class="btn btn-primary"
+                  (click)="btnAdd_click()" [disabled]="!userForm.valid">
+            Add User
+          </button>
+        </div>
+        <p *ngIf="!userForm.valid" [ngClass]="'validation-error'">
+          Please fill all the fields
+        </p>
+      </form>
+    </div>
+    <div class="card-footer">
+      {{userForm.value | json}}
+    </div>
+  </div>
+</div>
