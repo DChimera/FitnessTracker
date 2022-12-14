@@ -47,6 +47,15 @@
                    required max="9999"
                    [(ngModel)]="objActivity.calories" #calories="ngModel">
           </div>
+          <div *ngIf="calories.invalid && (calories.dirty || calories.touched)"
+               class="alert">
+            <small *ngIf="calories.errors?.['required']" [ngClass]="'validation-error'">
+              Calories are required.
+            </small>
+            <small *ngIf="calories.errors?.['max']" [ngClass]="'validation-error'">
+              Maximum value allowed is 9999
+            </small>
+          </div>
 
           <div *ngIf="calories.invalid && (calories.dirty || calories.touched)"
                class="alert">
@@ -70,12 +79,15 @@
                 (click)="btnAdd_click()">
           Add
         </button>
+        </div>
       </form>
+
 
     </div>
     <div class="card-footer">
-
+      {{activityForm.value | json}}
     </div>
+
   </div>
 </div>
 
