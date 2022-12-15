@@ -151,6 +151,10 @@ export class DatabaseServiceService {
     });
   }
 
+
+  public insertActivity
+
+
   public _selectUser(id: number): Promise<any> {
     let options = [id];
     let user: User;

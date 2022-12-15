@@ -1,4 +1,3 @@
-
 import {Component, OnInit} from "@angular/core";
 import {activity} from "../../models/activity.model";
 import {DatabaseServiceService} from "../../services/database-service.service";
