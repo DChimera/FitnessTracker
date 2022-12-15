@@ -117,7 +117,7 @@ export class DatabaseServiceService {
 
   public insertFood(food: Food, callback: any){
     function txFunction(tx: any) {
-      let sql: string = 'INSERT INTO foods(foodName, calories, fatGrams, carbGrams, proteinGrams, userId, dateEaten) VALUES (?,?,?,?,?,?,?)';
+      let sql: string = 'INSERT INTO food(foodName, calories, fatGrams, carbGrams, proteinGrams, userId, dateEaten) VALUES (?,?,?,?,?,?,?)';
       let options = [food.foodName, food.calories, food.fatGrams, food.carbGrams, food.proteinGrams, food.userId, food.dateEaten];
 
       tx.executeSql(sql, options, () => {
@@ -125,9 +125,7 @@ export class DatabaseServiceService {
       }, DatabaseServiceService.errorHandler);
     }
 
-    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback, ()=>{
-      console.log('Success: insert transaction successful');
-    });
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
   }
 
   public selectFoodByDate(): Promise<any> {
@@ -208,9 +206,7 @@ export class DatabaseServiceService {
       }, DatabaseServiceService.errorHandler);
     }
 
-    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
-      console.info("Success: insert activity record successful");
-    });
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
   }
 
   public deleteActivity(activity: Activity, callback: () => void) {
