@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from "../../models/user.model";
-import { Activity } from "../../models/activity.model";
 import { DatabaseServiceService } from "../../services/database-service.service";
 import { Router } from "@angular/router";
 import { NetIntakesService } from "../../services/net-intakes.service";
 import { GoalsService } from "../../services/goals.service";
 declare const $: any;
-
 
 @Component({
   selector: 'app-homepage-component',
@@ -14,15 +12,13 @@ declare const $: any;
   styleUrls: ['./homepage-component.component.css']
 })
 
-
 export class HomepageComponentComponent implements OnInit{
 
   constructor(private router: Router,
               private database:DatabaseServiceService,
               private goalsService:GoalsService,
               private netIntakes:NetIntakesService
-              )
-  {   }
+              ) { }
 
   user: User = new User();
   foods: any[] = [];
@@ -82,23 +78,15 @@ export class HomepageComponentComponent implements OnInit{
   }
 
   btnChangeWeight_click() {
-
     this.user.userWeight = $("#txtWeight").val();
     this.database.updateUser(this.user, ()=> {
-
       console.info("Weight updated successfully");
-
     });
-
     this.ngOnInit();
-
   }
 
   btnLogout_click() {
-
     localStorage.clear();
     this.router.navigate(["/login"]);
-
   }
-
 }
