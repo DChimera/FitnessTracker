@@ -44,13 +44,15 @@ export class HomepageComponentComponent implements OnInit{
     id = parseInt(localStorage.getItem('userId')||"1");
 
     this.database._selectUser(id)
-      .then((data: any) => {
+      .then((data:any)=> {
 
         this.user = data;
 
-      }).catch((e: any) => {
-        console.error(e);
-      });
+      }).catch((e: any)=>{
+
+      console.error(e);
+
+    });
 
       this.database.selectFoodByDate()
         .then((data: any)=> {

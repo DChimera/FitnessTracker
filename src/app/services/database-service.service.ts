@@ -70,7 +70,7 @@ export class DatabaseServiceService {
         "activityName VARCHAR(60) NOT NULL, " +
         "calories INTEGER NOT NULL, " +
         "userId INTEGER NOT NULL, " +
-        "datePerformed DATETIME, ";
+        "datePerformed DATETIME, " +
         "FOREIGN KEY(userId) REFERENCES users(userId));";
 
       tx.executeSql(sql, options, () => {
