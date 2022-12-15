@@ -259,9 +259,9 @@ export class DatabaseServiceService {
     });
   }
 
-  public _selectUser(id: number): Promise<any> {
+  public selectUser(id: number): Promise<any> {
     let options = [id];
-    let user: User = new User();
+    let user: User;
     return new Promise((resolve, reject) => {
       function txFunction(tx: any) {
         let sql = "SELECT * FROM users WHERE id=?;";
