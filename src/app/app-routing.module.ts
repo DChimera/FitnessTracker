@@ -7,6 +7,8 @@ import { HomepageComponentComponent } from "./components/homepage-component/home
 import { LoginComponentComponent } from "./components/login-component/login-component.component";
 import { AdduserComponent } from "./components/adduser/adduser.component";
 
+
+
 const routes: Routes = [
 
   {path:'', component: LoginComponentComponent},
