@@ -68,10 +68,8 @@ export class DatabaseServiceService {
       sql = "CREATE TABLE IF NOT EXISTS activities(" +
         "activityId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
         "activityName VARCHAR(60) NOT NULL, " +
-        "calories INTEGER NOT NULL, " +
-        "userId INTEGER NOT NULL, " +
-        "datePerformed DATETIME, " +
-        "FOREIGN KEY(userId) REFERENCES users(userId));";
+        "calories INTEGER NOT NULL, +" +
+        "type VARCHAR(50);)";
 
       tx.executeSql(sql, options, () => {
         console.info("Success: create table activities successful");
@@ -80,6 +78,33 @@ export class DatabaseServiceService {
     }
     this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
       console.log("Success: All tables created successfully");
+    });
+  }
+
+
+  public selectAllActivities(): Promise<any> {
+    let options: string[] = [];
+    let activities: Activity[] = [];
+    return new Promise((resolve, reject) => {
+      function txFunction(tx: any) {
+        let sql: string = "SELECT * FROM activities;";
+        tx.executeSql(sql, options, (tx: any, results: { rows: string | any[]; }) => {
+          if (results.rows.length > 0) {
+            for (let i = 0; i < results.rows.length; i++) {
+              let row = results.rows[i];
+              let activity = new Activity(row['activityName'], row['calories']);
+              activity.id = row['activityId'];
+              activities.push(activity);
+            }
+            resolve(activities);
+          } else {
+            reject("No users found");
+          }
+        }, DatabaseServiceService.errorHandler);
+      }
+      this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
+        console.info("Success: select all user records successful");
+      });
     });
   }
 
@@ -97,7 +122,7 @@ export class DatabaseServiceService {
 
   public insertFood(food: Food, callback: any){
     function txFunction(tx: any) {
-      let sql: string = "INSERT INTO foods(foodName, calories, fatGrams, carbGrams, proteinGrams, userId, dateEaten) VALUES (?, ?, ?, ?, ? , ?)";
+      let sql: string = "INSERT INTO foods(foodName, calories, fatGrams, carbGrams, proteinGrams, userId, dateEaten) VALUES (?, ?, ?, ?, ? , ?, ?)";
       let options = [food.foodName, food.calories, food.fatGrams, food.carbGrams, food.proteinGrams, food.userId, food.dateEaten];
 
       tx.executeSql(sql, options, () => {
@@ -108,29 +133,28 @@ export class DatabaseServiceService {
     this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
   }
 
-  public selectFoodByDate(): Promise<any> {
-    let options: string[] = [];
-    let foods: Food[] = [];
+  public selectFoodByDate(id: number): Promise<any> {
+    let options = [id];
+    let food: Food;
+    let foods: Food[];
     return new Promise((resolve, reject) => {
       function txFunction(tx: any) {
-        let sql = "SELECT * FROM food WHERE dateEaten = CONVERT (date, GETDATE());";
+        let sql = "SELECT * FROM foods WHERE id=? AND WHERE datePerformed=GETDATE();";
         tx.executeSql(sql, options, (tx: any, results: { rows: string | any[]; }) => {
           if (results.rows.length > 0) {
-            for (let i = 0; i < results.rows.length; i++) {
-              let row = results.rows[i];
-              let pdt = new Food(row['foodName'], row['calories'], row['fatGrams'], row['carbGrams'], row['proteinGrams'], row['dateEaten']);
-              pdt.id = row['id'];
-              foods.push(pdt);
-            }
+            let row = results.rows[0];
+            food = new Food(row['foodName'], row['calories'], row['fatGrams'], row ['carbGrams'], row['proteinGrams'], row['userId'], row['dateEaten']);
+            food.id = id;
+            foods.push(food);
             resolve(foods);
           }
           else {
-            reject("No foods found");
+            reject("No product found");
           }
         }, DatabaseServiceService.errorHandler);
       }
       this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
-        console.log('Success: selectAll transaction successful');
+        console.log('Success: select transaction successful');
       });
     });
   }
@@ -178,8 +202,8 @@ export class DatabaseServiceService {
 
   public insertActivity(activity: Activity, callback: any){
     function txFunction(tx: any) {
-      let sql: string = "INSERT INTO activities(activityName, calories, type, userId) VALUES (?, ?, ?, ?)";
-      let options = [activity.activityName, activity.calories, activity.type, activity.userId, activity.datePerformed];
+      let sql: string = "INSERT INTO activities(activityName, calories, type) VALUES (?, ?, ?)";
+      let options = [activity.activityName, activity.calories, activity.type];
 
       tx.executeSql(sql, options, () => {
         console.info("Success: insert activity record successful");
@@ -190,6 +214,7 @@ export class DatabaseServiceService {
       console.info("Success: insert activity record successful");
     });
   }
+
   public deleteActivity(activity: Activity, callback: () => void) {
     function txFunction(tx: any) {
       var sql: string = 'DELETE FROM activity WHERE id=?;';
@@ -202,29 +227,28 @@ export class DatabaseServiceService {
     });
   }
 
-  public selectActivitiesByDate(): Promise<any> {
-    let options: string[] = [];
-    let activities: Activity[] = [];
+  public selectActivitiesByDate(id: number): Promise<any> {
+    let options = [id];
+    let activity: Activity;
+    let activities: Activity[];
     return new Promise((resolve, reject) => {
       function txFunction(tx: any) {
-        let sql = "SELECT * FROM food WHERE datePerformed = CONVERT (date, GETDATE());";
+        let sql = "SELECT * FROM activities WHERE id=? AND WHERE datePerformed=GETDATE();";
         tx.executeSql(sql, options, (tx: any, results: { rows: string | any[]; }) => {
           if (results.rows.length > 0) {
-            for (let i = 0; i < results.rows.length; i++) {
-              let row = results.rows[i];
-              let pdt = new Activity(row['activityId'], row['activityName'], row['calories'], row['userId'], row['datePerformed']);
-              pdt.id = row['id'];
-              activities.push(pdt);
-            }
+            let row = results.rows[0];
+            activity = new Activity(row['activityName'], row['calories'], row['userId']);
+            activity.id = id;
+            activities.push(activity);
             resolve(activities);
           }
           else {
-            reject("No foods found");
+            reject("No product found");
           }
         }, DatabaseServiceService.errorHandler);
       }
       this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
-        console.log('Success: selectAll transaction successful');
+        console.log('Success: select transaction successful');
       });
     });
   }
