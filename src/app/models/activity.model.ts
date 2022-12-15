@@ -1,14 +1,15 @@
-export class activity{
-  activityName: any=null;
-  calories: any=null;
-  type:any=null;
-  activityId: number = -1;
-  constructor(activityName?: string, calories?:, type?: string, activityId: number){
+export class Activity{
+  id: number = -1;
+  activityName: any = null;
+  calories: any = null;
+  type: any = null;
+  userId: any = null;
+
+  constructor(activityName: string, calories: number, type: string, userId: number){
     this.activityName = activityName;
     this.calories = calories;
     this.type = type;
-    this.activityId = activityId;
-
+    this.userId = userId;
   }
 }
 

@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {activity} from "../../models/activity.model";
+import {Activity} from "../../models/activity.model";
 import {DatabaseServiceService} from "../../services/database-service.service";
 
 @Component({
@@ -8,7 +8,7 @@ import {DatabaseServiceService} from "../../services/database-service.service";
   styleUrls: ['./activity-journal.component.css']
 })
 
-export class ActivityComponent implements OnInit {
+export class ActivityJournalComponent implements OnInit {
   constructor(private database: DatabaseServiceService) {
   }
 
@@ -22,5 +22,5 @@ export class ActivityComponent implements OnInit {
     ));
     alert("Record added successfully");
   }
-  objActivity: activity = new activity;
+  objActivity: Activity = new Activity("",0,"");
 }

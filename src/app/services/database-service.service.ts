@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
 import { Food } from '../models/food.model';
-//import { Activity } from '../models/activity.model';
+import { Activity } from '../models/activity.model';
 
 
 
@@ -35,43 +35,40 @@ export class DatabaseServiceService {
     function txFunction(tx: any): void {
       var options: string[] = [];
       var sql: string = "CREATE TABLE IF NOT EXISTS users(" +
-        " userId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-        " userName VARCHAR(40) NOT NULL UNIQUE," +
-        " firstName VARCHAR(40) NOT NULL," +
-        " lastName VARCHAR(40)," +
-        " userGender VARCHAR(10)," +
-        " userHeight DOUBLE NOT NULL," +
-        " userWeight DOUBLE NOT NULL," +
-        " userGoalWeight DOUBLE NOT NULL," +
-        " dateCreated DATE NOT NULL);";
+        "userId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+        "userName VARCHAR(40) NOT NULL UNIQUE, " +
+        "firstName VARCHAR(40) NOT NULL, " +
+        "lastName VARCHAR(40), " +
+        "userGender VARCHAR(10), " +
+        "userHeight DOUBLE NOT NULL, " +
+        "userWeight DOUBLE NOT NULL, " +
+        "userGoalWeight DOUBLE NOT NULL, " +
+        "dateCreated DATE NOT NULL);";
 
       tx.executeSql(sql, options, () => {
         console.info("Success: create table users successful");
       }, DatabaseServiceService.errorHandler);
 
       sql = "CREATE TABLE IF NOT EXISTS food(" +
-        " foodId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-        " foodName VARCHAR(60) NOT NULL," +
-        " calories DOUBLE NOT NULL," +
-        " fatGrams DOUBLE NOT NULL," +
-        " carbGrams DOUBLE NOT NULL," +
-        " proteinGrams DOUBLE NOT NULL," +
-        " userId INTEGER NOT NULL," +
-        " FOREIGN KEY(userId) REFERENCES users(userId));";
+        "foodId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+        "foodName VARCHAR(60) NOT NULL, " +
+        "calories DOUBLE NOT NULL, " +
+        "fatGrams DOUBLE NOT NULL, " +
+        "carbGrams DOUBLE NOT NULL, " +
+        "proteinGrams DOUBLE NOT NULL, " +
+        "userId INTEGER NOT NULL, " +
+        "FOREIGN KEY(userId) REFERENCES users(userId));";
 
       tx.executeSql(sql, options, () => {
         console.info("Success: create table food successful");
       }, DatabaseServiceService.errorHandler);
 
       sql = "CREATE TABLE IF NOT EXISTS activities(" +
-        " foodId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-        " foodName VARCHAR(60) NOT NULL," +
-        " calories DOUBLE NOT NULL," +
-        " fatGrams DOUBLE NOT NULL," +
-        " carbGrams DOUBLE NOT NULL," +
-        " proteinGrams DOUBLE NOT NULL," +
-        " userId INTEGER NOT NULL," +
-        " FOREIGN KEY(userId) REFERENCES users(userId));";
+        "activityId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+        "activityName VARCHAR(60) NOT NULL, " +
+        "calories INTEGER NOT NULL, " +
+        "userId INTEGER NOT NULL, " +
+        "FOREIGN KEY(userId) REFERENCES users(userId));";
 
       tx.executeSql(sql, options, () => {
         console.info("Success: create table activities successful");
@@ -152,7 +149,20 @@ export class DatabaseServiceService {
   }
 
 
-  public insertActivity
+  public insertActivity(activity: Activity, callback: any){
+    function txFunction(tx: any) {
+      let sql: string = "INSERT INTO activities(activityName, calories, type, userId) VALUES (?, ?, ?, ?)";
+      let options = [activity.activityName, activity.calories, activity.type, activity.userId];
+
+      tx.executeSql(sql, options, () => {
+        console.info("Success: insert activity record successful");
+      }, DatabaseServiceService.errorHandler);
+    }
+
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
+      console.info("Success: insert activity record successful");
+    });
+  }
 
 
   public _selectUser(id: number): Promise<any> {
