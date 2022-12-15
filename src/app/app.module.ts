@@ -14,6 +14,7 @@ import { FoodComponent } from './components/food/food.component';
 import { FormsModule } from "@angular/forms";
 import { AdduserComponent } from './components/adduser/adduser.component';
 import { CameraComponent } from './components/camera/camera.component';
+import { ActivityComponent } from './components/activity/activity.component';
 
 
 
@@ -29,7 +30,8 @@ import { CameraComponent } from './components/camera/camera.component';
     RoutingComponentComponent,
     FoodComponent,
     AdduserComponent,
-    CameraComponent
+    CameraComponent,
+    ActivityComponent
   ],
   imports: [
     BrowserModule,

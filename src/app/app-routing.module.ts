@@ -8,6 +8,7 @@ import { HomepageComponentComponent } from "./components/homepage-component/home
 import { LoginComponentComponent } from "./components/login-component/login-component.component";
 import { AdduserComponent } from "./components/adduser/adduser.component";
 import {CameraComponent} from "./components/camera/camera.component";
+import {ActivityComponent} from "./components/activity/activity.component";
 
 
 
@@ -20,7 +21,8 @@ const routes: Routes = [
   {path:'home', component: HomepageComponentComponent},
   {path:'food', component: FoodJournalComponent},
   {path:'camera', component: CameraComponent},
-  {path: 'addfood', component: FoodComponent}
+  {path: 'addfood', component: FoodComponent},
+  {path: 'addactivity', component: ActivityComponent}
 ];
 
 @NgModule({

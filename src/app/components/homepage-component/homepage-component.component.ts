@@ -43,12 +43,12 @@ export class HomepageComponentComponent implements OnInit{
     this.id = parseInt(tempId);
     console.log(this.currentDate);
 
-    this.database.selectUser(this.id)
+    /*this.database.selectUser(this.id)
       .then((data:any)=> {
         this.user = data;
       }).catch((e: any)=> {
       console.error(e);
-    });
+    });*/
 
 /*      this.database.selectFoodByDate()
         .then((data: any)=> {

@@ -69,10 +69,21 @@ export class DatabaseServiceService {
         console.info("Success: create table food successful");
       }, DatabaseServiceService.errorHandler);
 
+      /*var options: string[] = [];
+      sql = "DROP TABLE IF EXISTS activities"
+
+      tx.executeSql(sql, options, () => {
+        console.info("Success: drop table users successful")
+      }, DatabaseServiceService.errorHandler);*/
+      var options: string[] = [];
       sql = "CREATE TABLE IF NOT EXISTS activities(" +
-        "activityId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-        "activityName VARCHAR(60) NOT NULL, " +
-        "calories INTEGER NOT NULL);";
+        " id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+        " activityName VARCHAR(60) NOT NULL," +
+        " calories INTEGER NOT NULL," +
+        " type VARCHAR(60) NOT NULL," +
+        " userId INTEGER," +
+        " dateCompleted DATETIME," +
+        " FOREIGN KEY(userId) REFERENCES users(userId));";
 
       tx.executeSql(sql, options, () => {
         console.info("Success: create table activities successful");
@@ -209,15 +220,17 @@ export class DatabaseServiceService {
 
   public insertActivity(activity: Activity, callback: any){
     function txFunction(tx: any) {
-      let sql: string = "INSERT INTO activities(activityName, calories, type) VALUES (?, ?, ?)";
+      let sql: string = "INSERT INTO activities(activityName, calories, type) VALUES (?,?,?);";
       let options = [activity.activityName, activity.calories, activity.type];
 
       tx.executeSql(sql, options, () => {
-        console.info("Success: insert activity record successful");
+        console.info("Success: food user record successful");
       }, DatabaseServiceService.errorHandler);
     }
 
-    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
+      console.log("Success: insert transaction successful");
+    });
   }
 
   public deleteActivity(activity: Activity, callback: () => void) {
