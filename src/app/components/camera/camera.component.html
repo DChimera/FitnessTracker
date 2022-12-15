@@ -1,3 +1,14 @@
+<header>
+
+  <nav class="nav justify-content-left">
+    <a class="nav-link" routerLink="/home">Home</a>
+    <a class="nav-link" routerLink="/food">Food Journal</a>
+    <a class="nav-link" routerLink="/addfood">Add a Food</a>
+    <a class="nav-link" routerLink="/activity">Activity Journal</a>
+    <a class="nav-link" routerLink="/about">About</a>
+    <a class="nav-link" routerLink="/camera">Camera</a>
+  </nav>
+</header>
 <div style="text-align:center">
   <div>
     <webcam [height]="500" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam" [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions"

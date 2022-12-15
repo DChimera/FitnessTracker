@@ -235,7 +235,7 @@ export class DatabaseServiceService {
             for (let i = 0; i < results.rows.length; i++) {
               let row = results.rows[i];
               let pdt = new Activity(row['activityId'], row['activityName'], row['calories']);
-              pdt.id = row['id'];
+              pdt.id = row['userId'];
               activities.push(pdt);
             }
             resolve(activities);
@@ -252,18 +252,20 @@ export class DatabaseServiceService {
   }
 
   public selectUser(id: number): Promise<any> {
-    let options: string[] = [id.toString()];
-    let user: User = new User();
+    let options = [id];
+    let user: User;
     return new Promise((resolve, reject) => {
       function txFunction(tx: any) {
         let sql = "SELECT * FROM users WHERE id=?;";
         tx.executeSql(sql, options, (tx: any, results: { rows: string | any[]; }) => {
           console.log(results);
           if (results.rows.length > 0) {
+            for (let i = 0; i < results.rows.length; i++) {
             let row = results.rows[0];
             user = new User(row['userName'], row['firstName'], row['lastName'], row['userGender'], row ['userHeight'], row['userWeight'], row['userGoalWeight'], row['dateCreated']);
-            user.id = row['userId'];
+            user.id = row['id'];
             resolve(user);
+            }
           }
           else {
             reject("No product found");
