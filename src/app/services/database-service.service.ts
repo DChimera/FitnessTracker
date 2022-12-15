@@ -70,7 +70,7 @@ export class DatabaseServiceService {
         "activityName VARCHAR(60) NOT NULL, " +
         "calories INTEGER NOT NULL, " +
         "userId INTEGER NOT NULL, " +
-        "datePerformed," +
+        "datePerformed DATE NOT NULL), ";
         "FOREIGN KEY(userId) REFERENCES users(userId));";
 
       tx.executeSql(sql, options, () => {
@@ -85,16 +85,14 @@ export class DatabaseServiceService {
 
   public insertUser(user: User, callback: any) {
     function txFunction(tx: any) {
-      let sql: string = "INSERT INTO users(userName, firstName, lastName, userHeight, userWeight, userGoalWeight, dateCreated) VALUES (?,?,?,?,?,?,?)";
+      let sql: string = "INSERT INTO users(userName, firstName, lastName, userHeight, userWeight, userGoalWeight, dateCreated) VALUES (?,?,?,?,?,?,?);";
       let options = [user.userName, user.firstName, user.lastName, user.userHeight, user. userWeight, user.userGoalWeight, user.dateCreated];
 
       tx.executeSql(sql, options, () => {
         console.info("Success: insert user record successful");
       }, DatabaseServiceService.errorHandler);
     }
-    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
-      console.info("Success: insert user record successful");
-    });
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
   }
 
   public insertFood(food: Food, callback: any){
@@ -107,9 +105,7 @@ export class DatabaseServiceService {
       }, DatabaseServiceService.errorHandler);
     }
 
-    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
-      console.info("Success: food user record successful");
-    });
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
   }
 
   public selectFoodByDate(): Promise<any> {
@@ -194,6 +190,17 @@ export class DatabaseServiceService {
       console.info("Success: insert activity record successful");
     });
   }
+  public deleteActivity(activity: Activity, callback: () => void) {
+    function txFunction(tx: any) {
+      var sql: string = 'DELETE FROM activity WHERE id=?;';
+      var options = [activity.id];
+      tx.executeSql(sql, options, callback, DatabaseServiceService.errorHandler);
+    }
+
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
+      console.log('Success: food deleted successfully');
+    });
+  }
 
   public selectActivitiesByDate(): Promise<any> {
     let options: string[] = [];
@@ -257,7 +264,7 @@ export class DatabaseServiceService {
             for (let i = 0; i < results.rows.length; i++) {
               let row = results.rows[i];
               let usr = new User(row['userName'], row['firstName'], row['lastName'], row['userGender'], row['userHeight'], row['userWeight'], row['userGoalWeight']);
-              usr.id = row['id'];
+              usr.id = row['userId'];
               users.push(usr);
             }
             resolve(users);

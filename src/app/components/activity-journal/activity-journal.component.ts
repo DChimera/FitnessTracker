@@ -1,6 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {Activity} from "../../models/activity.model";
 import {DatabaseServiceService} from "../../services/database-service.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-activity-journal',
@@ -9,11 +10,20 @@ import {DatabaseServiceService} from "../../services/database-service.service";
 })
 
 export class ActivityJournalComponent implements OnInit {
-  constructor(private database: DatabaseServiceService) {
+  objActivity: Activity = new Activity();
+  activities: Activity[] = [];
+  constructor(private database: DatabaseServiceService, private router: Router) {
   }
 
   ngOnInit(): void {
-    this.database.initDB();
+    this.database.selectAllFood()
+      .then(data=> {
+        this.activities=data;
+        console.info(data);
+      })
+      .catch(err =>{
+        console.error(err);
+      })
   }
 
   btnAdd_click() {
@@ -22,5 +32,9 @@ export class ActivityJournalComponent implements OnInit {
     ));
     alert("Record added successfully");
   }
-  objActivity: Activity = new Activity("",-1,"", -1);
+  btnDelete_click(activity: any){
+    this.database.deleteActivity(activity, ()=>{
+      alert("Food deleted successfully.");
+    });
+  }
 }

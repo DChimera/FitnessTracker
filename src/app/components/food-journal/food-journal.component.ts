@@ -25,7 +25,6 @@ export class FoodJournalComponent implements OnInit {
         console.error(err);
       })
   }
-
   btnAdd_click() {
     this.database.insertFood(this.objFood, () => (
       console.log("Food record added successfully")

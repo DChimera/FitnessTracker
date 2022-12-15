@@ -5,7 +5,7 @@ import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
 @Component({
   selector: 'app-camera',
   templateUrl: './camera.component.html',
-  styleUrls: ['./camera.component.scss']
+  styleUrls: ['./camera.component.css']
 })
 export class CameraComponent implements OnInit {
   @Output()
@@ -13,7 +13,6 @@ export class CameraComponent implements OnInit {
 // toggle webcam on/off
   public showWebcam = true;
   public multipleWebcamsAvailable = false;
-  public deviceId: string;
   public videoOptions: MediaTrackConstraints = {
 // width: {ideal: 1024},
 // height: {ideal: 576}

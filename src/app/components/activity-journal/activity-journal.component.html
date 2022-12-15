@@ -81,13 +81,38 @@
         </button>
         </div>
       </form>
-
-
     </div>
     <div class="card-footer">
       {{activityForm.value | json}}
     </div>
-
+  </div>
+</div>
+<div class="m-4">
+  <div class="card">
+    <div class="card-header">
+      <h2>List of Activities</h2>
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let activity of activities">
+          <div class="row">
+            <div class="col-sm-4">
+              {{activity.activityName}}
+            </div>  <!--This modify button could be added, but it needs a modify component-->
+            <!--            <div class="col-sm-4">
+                          <button type="button" id="btnModify" name="btnModify"
+                                  class="btn btn-primary btn-sm me-4" (click)="btnModify_click(food)"
+                          >Modify</button>
+                        </div>-->
+            <div class="col-sm-4">
+              <button type="button" id="btnDelete" name="btnDelete"
+                      class="btn btn-danger btn-sm me-4" (click)="btnDelete_click(activity)"
+              >Delete</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 
