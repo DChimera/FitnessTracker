@@ -12,15 +12,16 @@ declare const $: any;
   styleUrls: ['./homepage-component.component.css']
 })
 
-export class HomepageComponentComponent implements OnInit{
+export class HomepageComponentComponent implements OnInit {
 
   constructor(private router: Router,
-              private database:DatabaseServiceService,
-              private goalsService:GoalsService,
-              private netIntakes:NetIntakesService
-              ) { }
+              private database: DatabaseServiceService,
+              private goalsService: GoalsService,
+              private netIntakes: NetIntakesService
+  ) {
+  }
 
-  user: User = new User();
+  user: User[] = [];
   foods: any[] = [];
   activities: any[] = [];
   id: number = -1;
@@ -31,55 +32,61 @@ export class HomepageComponentComponent implements OnInit{
   netCaloriesTarget: number = -1;
   goalProteinIntake: number = -1;
 
-  caloriesIn = -1;
-  caloriesOut = -1;
-  proteinIn = -1;
-  netCalories = -1;
+  caloriesIn: number = -1;
+  caloriesOut: number = -1;
+  proteinIn: number = -1;
+  netCalories: number = -1;
 
   ngOnInit(): void {
     this.database.initDB();
 
-    let tempId: any = localStorage.getItem('userId');
+    let tempId: any = localStorage.getItem('userId') || '1';
     this.id = parseInt(tempId);
     console.log(this.currentDate);
 
-    /*this.database.selectUser(this.id)
-      .then((data:any)=> {
+    this.database.selectAllUser()
+      .then((data: any) => {
         this.user = data;
-      }).catch((e: any)=> {
+      }).catch((e: any) => {
       console.error(e);
-    });*/
+    });
 
-/*      this.database.selectFoodByDate()
-        .then((data: any)=> {
+    /*      this.database.selectFoodByDate()
+            .then((data: any)=> {
 
-          this.foods = data;
+              this.foods = data;
 
-        }).catch((e: any)=> {
-        console.error(e);
-        });*/
+            }).catch((e: any)=> {
+            console.error(e);
+            });*/
 
+    /*
     this.database.selectActivitiesByDate()
       .then((data: any)=> {
         this.activities = data;
       }).catch((e: any)=> {
       console.error(e);
-    });
 
+    });
+  */
     console.log(this.user);
     this.netCaloriesTarget = this.goalsService.calcNetCalorieGoal(
-      this.user.userGoalWeight, this.user.userWeight, this.user.userHeight, this.user.userGender);
-    this.goalProteinIntake = this.goalsService.calcProteinGoals(this.user.userWeight);
+      this.user[this.id].userGoalWeight, this.user[this.id].userWeight, this.user[this.id].userHeight, this.user[this.id].userGender);
+    this.goalProteinIntake = this.goalsService.calcProteinGoals(this.user[this.id].userWeight);
 
+    /*
     this.caloriesIn = this.netIntakes.calculateTotalCaloriesIn(this.foods);
     this.caloriesOut = this.netIntakes.calculateTotalCaloriesOut(this.activities);
     this.proteinIn = this.netIntakes.calculateTotalProteinIn(this.foods)
     this.netCalories = this.netIntakes.calculateNetCalories(this.foods, this.activities)
+    */
+
+
   }
 
   btnChangeWeight_click() {
-    this.user.userWeight = $("#txtWeight").val();
-    this.database.updateUser(this.user, ()=> {
+    this.user[this.id].userWeight = $("#txtWeight").val();
+    this.database.updateUser(this.user[this.id], () => {
       console.info("Weight updated successfully");
     });
     this.ngOnInit();
