@@ -47,14 +47,6 @@ export class DatabaseServiceService {
         console.info("Success: create table users successful");
       }, DatabaseServiceService.errorHandler);
 
-      /*var options: string[] = [];
-      sql = "DROP TABLE IF EXISTS food"
-
-      tx.executeSql(sql, options, () => {
-        console.info("Success: drop table food successful")
-      }, DatabaseServiceService.errorHandler);
-      */
-      var options: string[] = [];
       sql = "CREATE TABLE IF NOT EXISTS food(" +
         " foodId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
         " foodName VARCHAR(60) NOT NULL," +
@@ -73,12 +65,14 @@ export class DatabaseServiceService {
       sql = "CREATE TABLE IF NOT EXISTS activities(" +
         "activityId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
         "activityName VARCHAR(60) NOT NULL, " +
-        "calories INTEGER NOT NULL);";
+        "calories INTEGER NOT NULL, " +
+        "userId INTEGER NOT NULL, " +
+        "datePerformed DATETIME NOT NULL, " +
+        "FOREIGN KEY(userId) REFERENCES users(userId));";
 
       tx.executeSql(sql, options, () => {
         console.info("Success: create table activities successful");
       }, DatabaseServiceService.errorHandler);
-
     }
     this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
       console.log("Success: All tables created successfully");
@@ -123,7 +117,7 @@ export class DatabaseServiceService {
     this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
   }
 
-  public insertFood(food: Food, callback: any){
+  public insertFood(food: Food, callback: any) {
     function txFunction(tx: any) {
       let sql: string = "INSERT INTO food(foodName, calories, fatGrams, carbGrams, proteinGrams) VALUES (?,?,?,?,?);";
       let options = [food.foodName, food.calories, food.fatGrams, food.carbGrams, food.proteinGrams];
@@ -190,7 +184,7 @@ export class DatabaseServiceService {
         }, DatabaseServiceService.errorHandler);
       }
       this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
-        console.log('Success: selectAll transaction successful');
+        console.log('Success: selectAllFood transaction successful');
       });
     });
   }
@@ -209,8 +203,8 @@ export class DatabaseServiceService {
 
   public insertActivity(activity: Activity, callback: any){
     function txFunction(tx: any) {
-      let sql: string = "INSERT INTO activities(activityName, calories, type) VALUES (?, ?, ?)";
-      let options = [activity.activityName, activity.calories, activity.type];
+      let sql: string = "INSERT INTO activities(activityName, calories, type, datePerformed) VALUES (?, ?, ?, ?)";
+      let options = [activity.activityName, activity.calories, activity.type, activity.datePerformed];
       tx.executeSql(sql, options, () => {
         console.info("Success: insert activity record successful");
       }, DatabaseServiceService.errorHandler);
@@ -220,7 +214,7 @@ export class DatabaseServiceService {
 
   public deleteActivity(activity: Activity, callback: () => void) {
     function txFunction(tx: any) {
-      var sql: string = 'DELETE FROM activity WHERE id=?;';
+      var sql: string = 'DELETE FROM activities WHERE id=?;';
       var options = [activity.id];
       tx.executeSql(sql, options, callback, DatabaseServiceService.errorHandler);
     }
@@ -235,7 +229,7 @@ export class DatabaseServiceService {
     let activities: Activity[] = [];
     return new Promise((resolve, reject) => {
       function txFunction(tx: any) {
-        let sql = "SELECT * FROM food WHERE datePerformed = CONVERT (date, GETDATE());";
+        let sql = "SELECT * FROM activities WHERE datePerformed = CONVERT (date, GETDATE());";
         tx.executeSql(sql, options, (tx: any, results: { rows: string | any[]; }) => {
           if (results.rows.length > 0) {
             for (let i = 0; i < results.rows.length; i++) {
@@ -252,13 +246,13 @@ export class DatabaseServiceService {
         }, DatabaseServiceService.errorHandler);
       }
       this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
-        console.log('Success: selectAll transaction successful');
+        console.log('Success: selectAllActivitiesByDate transaction successful');
       });
     });
   }
 
-  public _selectUser(id: number): Promise<any> {
-    let options = [id];
+  public selectUser(id: number): Promise<any> {
+    let options: string[] = [id.toString()];
     let user: User = new User();
     return new Promise((resolve, reject) => {
       function txFunction(tx: any) {
@@ -267,7 +261,7 @@ export class DatabaseServiceService {
           console.log(results);
           if (results.rows.length > 0) {
             let row = results.rows[0];
-            user = new User(row['firstName'], row['lastName'], row['userGender'], row ['userHeight'], row['userWeight'], row['userGoalWeight'], row['dateCreated']);
+            user = new User(row['userName'], row['firstName'], row['lastName'], row['userGender'], row ['userHeight'], row['userWeight'], row['userGoalWeight'], row['dateCreated']);
             user.id = row['userId'];
             resolve(user);
           }
@@ -277,7 +271,7 @@ export class DatabaseServiceService {
         }, DatabaseServiceService.errorHandler);
       }
       this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
-        console.log('Success: select transaction successful');
+        console.log('Success: select user transaction successful');
       });
     });
   }
@@ -308,19 +302,6 @@ export class DatabaseServiceService {
     });
   }
 
-
-
-  public deleteUser(user: User, callback: any) {
-    function txFunction(tx: any) {
-      let sql: string = "DELETE FROM users WHERE userName=?;";
-      let options = [user.userName];
-
-      tx.executeSql(sql, options, () => {
-        console.info("Success: delete user record successful");
-      }, DatabaseServiceService.errorHandler);
-    }
-  }
-
   public updateUser(user: User, callback: any) {
       function txFunction(tx: any) {
         let sql: string = "UPDATE users SET userName=?, firstName=?, lastName=?, userHeight=?, userWeight=?" +
@@ -331,10 +312,7 @@ export class DatabaseServiceService {
           console.info("Success: delete user record successful");
         }, DatabaseServiceService.errorHandler);
       }
-
-    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
-      console.info(`Success: select ${user.userName}'s user record successful`);
-    });
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
   }
 
   public initDB(): void {

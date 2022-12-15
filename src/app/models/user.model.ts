@@ -9,7 +9,7 @@ export class User {
   userGoalWeight: any = null;
   dateCreated: any = null;
 
-  constructor(userName?: string, firstName?: string, lastName?: string, userGender?: string, userHeight?: number, userWeight?: number, userGoalWeight?: number) {
+  constructor(userName?: string, firstName?: string, lastName?: string, userGender?: string, userHeight?: number, userWeight?: number, userGoalWeight?: number, dateCreated?: Date) {
     this.userName = userName;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -17,6 +17,6 @@ export class User {
     this.userHeight = userHeight;
     this.userWeight = userWeight;
     this.userGoalWeight = userGoalWeight;
-    this.dateCreated = String(new Date());
+    this.dateCreated = dateCreated || String(new Date());
   }
 }

@@ -29,7 +29,8 @@ export class HomepageComponentComponent implements OnInit{
   activities: any[] = [];
   id: number = -1;
 
-  currentDate = Date.now();
+  date: Date = new Date();
+  currentDate: string = this.date.toDateString();
 
   netCaloriesTarget: number = -1;
   goalProteinIntake: number = -1;
@@ -40,18 +41,17 @@ export class HomepageComponentComponent implements OnInit{
   netCalories = -1;
 
   ngOnInit(): void {
+    this.database.initDB();
+
     let tempId: any = localStorage.getItem('userId');
     this.id = parseInt(tempId);
+    console.log(this.currentDate);
 
-    this.database._selectUser(this.id)
+    this.database.selectUser(this.id)
       .then((data:any)=> {
-
         this.user = data;
-
-      }).catch((e: any)=>{
-
+      }).catch((e: any)=> {
       console.error(e);
-
     });
 
 /*      this.database.selectFoodByDate()
@@ -65,15 +65,14 @@ export class HomepageComponentComponent implements OnInit{
 
     this.database.selectActivitiesByDate()
       .then((data: any)=> {
-
         this.activities = data;
-
       }).catch((e: any)=> {
       console.error(e);
     });
 
-    this.netCaloriesTarget = this.goalsService.calcNetCalorieGoal(this.user.userGoalWeight, this.user.userWeight,
-      this.user.userHeight, this.user.userGender);
+    console.log(this.user);
+    this.netCaloriesTarget = this.goalsService.calcNetCalorieGoal(
+      this.user.userGoalWeight, this.user.userWeight, this.user.userHeight, this.user.userGender);
     this.goalProteinIntake = this.goalsService.calcProteinGoals(this.user.userWeight);
 
     this.caloriesIn = this.netIntakes.calculateTotalCaloriesIn(this.foods);
