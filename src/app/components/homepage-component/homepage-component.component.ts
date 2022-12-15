@@ -21,7 +21,8 @@ export class HomepageComponentComponent implements OnInit {
   ) {
   }
 
-  user: User[] = [];
+  users: User[] = [];
+  user: User = new User();
   foods: any[] = [];
   activities: any[] = [];
   id: number = -1;
@@ -42,11 +43,13 @@ export class HomepageComponentComponent implements OnInit {
 
     let tempId: any = localStorage.getItem('userId') || '1';
     this.id = parseInt(tempId);
-    console.log(this.currentDate);
 
     this.database.selectAllUser()
       .then((data: any) => {
-        this.user = data;
+        this.users = data;
+        console.log(this.users);
+        this.user = this.users[this.id - 1];
+        console.log(this.user);
       }).catch((e: any) => {
       console.error(e);
     });
@@ -71,8 +74,8 @@ export class HomepageComponentComponent implements OnInit {
   */
     console.log(this.user);
     this.netCaloriesTarget = this.goalsService.calcNetCalorieGoal(
-      this.user[this.id].userGoalWeight, this.user[this.id].userWeight, this.user[this.id].userHeight, this.user[this.id].userGender);
-    this.goalProteinIntake = this.goalsService.calcProteinGoals(this.user[this.id].userWeight);
+      this.user.userGoalWeight, this.user.userWeight, this.user.userHeight, this.user.userGender);
+    this.goalProteinIntake = this.goalsService.calcProteinGoals(this.user.userWeight);
 
     /*
     this.caloriesIn = this.netIntakes.calculateTotalCaloriesIn(this.foods);
@@ -85,8 +88,8 @@ export class HomepageComponentComponent implements OnInit {
   }
 
   btnChangeWeight_click() {
-    this.user[this.id].userWeight = $("#txtWeight").val();
-    this.database.updateUser(this.user[this.id], () => {
+    this.user.userWeight = $("#txtWeight").val();
+    this.database.updateUser(this.user, () => {
       console.info("Weight updated successfully");
     });
     this.ngOnInit();
