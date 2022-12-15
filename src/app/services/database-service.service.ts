@@ -70,7 +70,7 @@ export class DatabaseServiceService {
         "activityName VARCHAR(60) NOT NULL, " +
         "calories INTEGER NOT NULL, " +
         "userId INTEGER NOT NULL, " +
-        "datePerformed DATE NOT NULL), ";
+        "datePerformed DATETIME, ";
         "FOREIGN KEY(userId) REFERENCES users(userId));";
 
       tx.executeSql(sql, options, () => {
@@ -85,8 +85,8 @@ export class DatabaseServiceService {
 
   public insertUser(user: User, callback: any) {
     function txFunction(tx: any) {
-      let sql: string = "INSERT INTO users(userName, firstName, lastName, userHeight, userWeight, userGoalWeight, dateCreated) VALUES (?,?,?,?,?,?,?);";
-      let options = [user.userName, user.firstName, user.lastName, user.userHeight, user. userWeight, user.userGoalWeight, user.dateCreated];
+      let sql: string = "INSERT INTO users(userName, firstName, lastName, userGender, userHeight, userWeight, userGoalWeight, dateCreated) VALUES (?,?,?,?,?,?,?,?);";
+      let options = [user.userName, user.firstName, user.lastName, user.userGender, user.userHeight, user. userWeight, user.userGoalWeight, user.dateCreated];
 
       tx.executeSql(sql, options, () => {
         console.info("Success: insert user record successful");

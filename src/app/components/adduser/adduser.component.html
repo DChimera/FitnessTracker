@@ -70,7 +70,7 @@
           <select class="form-select" id="txtUserGender" name="txtUserGender"
                   [(ngModel)]="objUser.userGender" #userGender="ngModel">
             <option value="">Select a Gender</option>
-            <option *ngFor="let gender of Gender" ngValue="gender">{{gender}}</option>
+            <option *ngFor="let gender of Gender" ngValue="{{gender}}">{{gender}}</option>
           </select>
         </div>
 

@@ -30,14 +30,13 @@ export class HomepageComponentComponent implements OnInit{
 
   currentDate = Date.now();
 
-  netCaloriesTarget: number = this.goalsService.calcNetCalorieGoal(this.user.userGoalWeight, this.user.currentWeight,
-    this.user.currentHeight, this.user.userGender);
-  goalProteinIntake: number = this.goalsService.calcProteinGoals(this.user.userWeight);
+  netCaloriesTarget: number = -1;
+  goalProteinIntake: number = -1;
 
-  caloriesIn = this.netIntakes.calculateTotalCaloriesIn(this.foods);
-  caloriesOut = this.netIntakes.calculateTotalCaloriesOut(this.activities);
-  proteinIn = this.netIntakes.calculateTotalProteinIn(this.foods)
-  netCalories = this.netIntakes.calculateNetCalories(this.foods, this.activities)
+  caloriesIn = -1;
+  caloriesOut = -1;
+  proteinIn = -1;
+  netCalories = -1;
 
   ngOnInit(): void {
 
@@ -71,6 +70,14 @@ export class HomepageComponentComponent implements OnInit{
       console.error(e);
     });
 
+    this.netCaloriesTarget = this.goalsService.calcNetCalorieGoal(this.user.userGoalWeight, this.user.currentWeight,
+      this.user.currentHeight, this.user.userGender);
+    this.goalProteinIntake = this.goalsService.calcProteinGoals(this.user.userWeight);
+
+    this.caloriesIn = this.netIntakes.calculateTotalCaloriesIn(this.foods);
+    this.caloriesOut = this.netIntakes.calculateTotalCaloriesOut(this.activities);
+    this.proteinIn = this.netIntakes.calculateTotalProteinIn(this.foods)
+    this.netCalories = this.netIntakes.calculateNetCalories(this.foods, this.activities)
   }
 
   btnChangeWeight_click() {

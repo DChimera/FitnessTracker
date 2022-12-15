@@ -15,8 +15,6 @@ export class LoginComponentComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
-    let activeUser = localStorage.getItem("userId");
-
     this.database.initDB();
     this.database.selectAllUser()
       .then(data => {
@@ -25,11 +23,6 @@ export class LoginComponentComponent implements OnInit {
       .catch(err => {
         console.error(err);
       });
-
-    if (activeUser !== undefined)
-    {
-      //this.router.navigate(['/home']);
-    }
   }
   btnLogin_click(id: number) {
     localStorage.setItem("userId", id.toString());
