@@ -52,11 +52,10 @@ export class DatabaseServiceService {
 
       tx.executeSql(sql, options, () => {
         console.info("Success: drop table food successful")
-      }, DatabaseServiceService.errorHandler);
-      */
+      }, DatabaseServiceService.errorHandler);*/
       var options: string[] = [];
       sql = "CREATE TABLE IF NOT EXISTS food(" +
-        " foodId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+        " id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
         " foodName VARCHAR(60) NOT NULL," +
         " calories INTEGER NOT NULL," +
         " fatGrams INTEGER NOT NULL," +
@@ -197,13 +196,13 @@ export class DatabaseServiceService {
 
   public deleteFood(food: Food, callback: () => void) {
     function txFunction(tx: any) {
-      var sql: string = 'DELETE FROM food WHERE id=?;';
-      var options = [food.id];
+      let sql: string = 'DELETE FROM food WHERE id=?;';
+      let options = [food.id];
       tx.executeSql(sql, options, callback, DatabaseServiceService.errorHandler);
     }
 
     this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
-      console.log('Success: food deleted successfully');
+      console.log('Success: delete transaction successful');
     });
   }
 

@@ -9,23 +9,18 @@
         <li class="list-group-item" *ngFor="let food of foods">
           <div class="row">
             <div class="col-sm-4">
-              {{food.foodName}}
+              Name : {{food.foodName}}<br>
+              Protein (grams): {{food.proteinGrams}}<br>
+              Carbohydrates (grams): {{food.carbGrams}}<br>
+              Fats (grams): {{food.fatGrams}}<br>
             </div>
-            <div class="col-sm-4">
-              {{food.fatGrams}}
-            </div>
-            <div class="col-sm-4">
-              {{food.carbGrams}}
-            </div>
-            <div class="col-sm-4">
-              {{food.proteinGrams}}
-            </div><!--This modify button could be added, but it needs a modify component-->
+            <!--This modify button could be added, but it needs a modify component-->
 <!--            <div class="col-sm-4">
               <button type="button" id="btnModify" name="btnModify"
                       class="btn btn-primary btn-sm me-4" (click)="btnModify_click(food)"
               >Modify</button>
             </div>-->
-            <div>
+            <div class="col-sm-4">
               <button type="button" id="btnDelete" name="btnDelete"
                       class="btn btn-danger btn-sm me-4" (click)="btnDelete_click(food)"
               >Delete</button>
