@@ -5,6 +5,7 @@ import { DatabaseServiceService } from "../../services/database-service.service"
 import { Router } from "@angular/router";
 import { NetIntakesService } from "../../services/net-intakes.service";
 import { GoalsService } from "../../services/goals.service";
+declare const $: any;
 
 
 @Component({
@@ -12,7 +13,6 @@ import { GoalsService } from "../../services/goals.service";
   templateUrl: './homepage-component.component.html',
   styleUrls: ['./homepage-component.component.css']
 })
-
 
 
 export class HomepageComponentComponent implements OnInit{
@@ -42,7 +42,7 @@ export class HomepageComponentComponent implements OnInit{
   ngOnInit(): void {
 
     let id: number;
-    id = parseInt(localStorage.getItem('id')||"");
+    id = parseInt(localStorage.getItem('userId')||"1");
 
     this.database._selectUser(id)
       .then((data: any) => {
@@ -73,5 +73,24 @@ export class HomepageComponentComponent implements OnInit{
 
   }
 
+  btnChangeWeight_click() {
+
+    this.user.currentWeight = $("#txtWeight").val();
+    this.database.updateUser(this.user, ()=> {
+
+      console.info("Weight updated successfully");
+
+    });
+
+    this.ngOnInit();
+
+  }
+
+  btnLogout_click() {
+
+    localStorage.clear();
+    this.router.navigate(["/login"]);
+
+  }
 
 }
