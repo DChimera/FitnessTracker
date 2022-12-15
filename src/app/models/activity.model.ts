@@ -6,7 +6,7 @@ export class Activity{
   userId: any = null;
   datePerformed: any = null;
 
-  constructor(activityName: string, calories: number, type: string, userId: number, datePerformed: Date){
+  constructor(activityName?: string, calories?: number, type?: string, userId?: number, datePerformed?: Date){
     this.activityName = activityName;
     this.calories = calories;
     this.type = type;
