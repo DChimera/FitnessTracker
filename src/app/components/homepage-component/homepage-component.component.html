@@ -1,18 +1,15 @@
 <header>
 
-  <header>
+  <nav class="nav justify-content-left">
 
-    <nav class="nav justify-content-left">
-      <a class="nav-link" routerLink="/home">Home</a>
-      <a class="nav-link" routerLink="/food">Food Journal</a>
-      <a class="nav-link" routerLink="/addfood">Add a Food</a>
-      <a class="nav-link" routerLink="/activity">Activity Journal</a>
-      <a class="nav-link" routerLink="/addactivity">Add an Activity</a>
-      <a class="nav-link" routerLink="/about">About</a>
-      <a class="nav-link" routerLink="/camera">Camera</a>
-    </nav>
-
-  </header>
+    <a class="nav-link" routerLink="/home">Home</a>
+    <a class="nav-link" routerLink="/food">Food Journal</a>
+    <a class="nav-link" routerLink="/addfood">Add a Food</a>
+    <a class="nav-link" routerLink="/activity">Activity Journal</a>
+    <a class="nav-link" routerLink="/addactivity">Add an Activity</a>
+    <a class="nav-link" routerLink="/about">About</a>
+    <a class="nav-link" routerLink="/camera">Camera</a>
+  </nav>
 
 </header>
 
@@ -156,7 +153,7 @@
     <label for="txtWeight" class="form-label">Update Your Weight</label>
     <input type="number" id="txtWeight" name="txtPrice"
            class="form-control"
-           [(ngModel)]="user.userWeight">
+           [(ngModel)]="user.userGoalWeight">
   </div>
 
   <button type="button" id="btnChangeWeight" name="btnChangeWeight"

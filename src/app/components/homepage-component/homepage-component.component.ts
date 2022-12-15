@@ -47,21 +47,20 @@ export class HomepageComponentComponent implements OnInit {
     this.database.selectAllUser()
       .then((data: any) => {
         this.users = data;
-        console.log(this.users);
         this.user = this.users[this.id - 1];
-        console.log(this.user);
       }).catch((e: any) => {
       console.error(e);
     });
 
-    /*      this.database.selectFoodByDate()
-            .then((data: any)=> {
+    /*
+    this.database.selectFoodByDate()
+      .then((data: any)=> {
 
-              this.foods = data;
+        this.foods = data;
 
-            }).catch((e: any)=> {
-            console.error(e);
-            });*/
+      }).catch((e: any)=> {
+      console.error(e);
+      });*/
 
     /*
     this.database.selectActivitiesByDate()
@@ -72,17 +71,14 @@ export class HomepageComponentComponent implements OnInit {
 
     });
   */
-    console.log(this.user);
     this.netCaloriesTarget = this.goalsService.calcNetCalorieGoal(
       this.user.userGoalWeight, this.user.userWeight, this.user.userHeight, this.user.userGender);
     this.goalProteinIntake = this.goalsService.calcProteinGoals(this.user.userWeight);
 
-    /*
     this.caloriesIn = this.netIntakes.calculateTotalCaloriesIn(this.foods);
     this.caloriesOut = this.netIntakes.calculateTotalCaloriesOut(this.activities);
     this.proteinIn = this.netIntakes.calculateTotalProteinIn(this.foods)
     this.netCalories = this.netIntakes.calculateNetCalories(this.foods, this.activities)
-    */
 
 
   }
