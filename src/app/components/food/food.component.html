@@ -1,3 +1,15 @@
+<header>
+
+  <nav class="nav justify-content-left">
+
+    <a class="nav-link" routerLink="/home">Home</a>
+    <a class="nav-link" routerLink="/food">Food Journal</a>
+    <a class="nav-link" routerLink="/activity">Activity Journal</a>
+    <a class="nav-link" routerLink="/about">About</a>
+    <a class="nav-link" routerLink="/camera">Camera</a>
+  </nav>
+</header>
+
 <div class="m-4">
   <div class="card">
     <div class="card-header">
@@ -86,11 +98,27 @@
           </small>
         </div>
 
-        <button type="button" id="btnAdd" name="btnAdd"
-                class="btn btn-primary"
-                (click)="btnAdd_click()" [disabled]="!foodForm.valid">
-          Add
-        </button>
+        <!--<div class="mb-3">
+          <label for="txtUserId" class="form-label">Date Eaten</label>
+          <input type="text" id="txtUserId" name="txtUserId" class="form-control"
+                 max="9999"
+                 [(ngModel)]="objFood.userId">
+        </div>
+
+        <div class="mb-3">
+          <label for="txtDateEaten" class="form-label">Date Eaten</label>
+          <input type="dateTime" id="txtDateEaten" name="txtDateEaten" class="form-control"
+                 max="9999"
+                 [(ngModel)]="objFood.dateEaten">
+        </div>-->
+
+        <div class="form-group">
+          <button type="button" id="btnAdd" name="btnAdd"
+                  class="btn btn-primary"
+                  (click)="btnAdd_click()" [disabled]="!foodForm.valid">
+            Add Food
+          </button>
+        </div>
       </form>
     </div>
     <p *ngIf="!foodForm.valid" [ngClass]="'validation-error'"></p>
