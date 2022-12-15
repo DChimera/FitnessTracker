@@ -5,7 +5,7 @@ import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
 @Component({
   selector: 'app-camera',
   templateUrl: './camera.component.html',
-  styleUrls: ['./camera.component.scss']
+  styleUrls: ['./camera.component.css']
 })
 export class CameraComponent implements OnInit {
   @Output()
