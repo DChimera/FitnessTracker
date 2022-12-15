@@ -68,10 +68,7 @@ export class DatabaseServiceService {
       sql = "CREATE TABLE IF NOT EXISTS activities(" +
         "activityId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
         "activityName VARCHAR(60) NOT NULL, " +
-        "calories INTEGER NOT NULL, " +
-        "userId INTEGER NOT NULL, " +
-        "datePerformed DATETIME, " +
-        "FOREIGN KEY(userId) REFERENCES users(userId));";
+        "calories INTEGER NOT NULL);";
 
       tx.executeSql(sql, options, () => {
         console.info("Success: create table activities successful");
@@ -80,6 +77,32 @@ export class DatabaseServiceService {
     }
     this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
       console.log("Success: All tables created successfully");
+    });
+  }
+
+  public selectAllActivities(): Promise<any> {
+    let options: string[] = [];
+    let activities: Activity[] = [];
+    return new Promise((resolve, reject) => {
+      function txFunction(tx: any) {
+        let sql: string = "SELECT * FROM activities;";
+        tx.executeSql(sql, options, (tx: any, results: { rows: string | any[]; }) => {
+          if (results.rows.length > 0) {
+            for (let i = 0; i < results.rows.length; i++) {
+              let row = results.rows[i];
+              let activity = new Activity(row['activityName'], row['calories'], row['type']);
+              activity.id = row['userId'];
+              activities.push(activity);
+            }
+            resolve(activities);
+          } else {
+            reject("No users found");
+          }
+        }, DatabaseServiceService.errorHandler);
+      }
+      this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
+        console.info("Success: select all user records successful");
+      });
     });
   }
 
@@ -180,8 +203,8 @@ export class DatabaseServiceService {
 
   public insertActivity(activity: Activity, callback: any){
     function txFunction(tx: any) {
-      let sql: string = "INSERT INTO activities(activityName, calories, type, userId) VALUES (?, ?, ?, ?)";
-      let options = [activity.activityName, activity.calories, activity.type, activity.userId, activity.datePerformed];
+      let sql: string = "INSERT INTO activities(activityName, calories, type) VALUES (?, ?, ?)";
+      let options = [activity.activityName, activity.calories, activity.type];
 
       tx.executeSql(sql, options, () => {
         console.info("Success: insert activity record successful");
@@ -192,6 +215,7 @@ export class DatabaseServiceService {
       console.info("Success: insert activity record successful");
     });
   }
+
   public deleteActivity(activity: Activity, callback: () => void) {
     function txFunction(tx: any) {
       var sql: string = 'DELETE FROM activity WHERE id=?;';
@@ -214,7 +238,7 @@ export class DatabaseServiceService {
           if (results.rows.length > 0) {
             for (let i = 0; i < results.rows.length; i++) {
               let row = results.rows[i];
-              let pdt = new Activity(row['activityId'], row['activityName'], row['calories'], row['userId'], row['datePerformed']);
+              let pdt = new Activity(row['activityId'], row['activityName'], row['calories']);
               pdt.id = row['id'];
               activities.push(pdt);
             }
@@ -280,6 +304,8 @@ export class DatabaseServiceService {
       });
     });
   }
+
+
 
   public deleteUser(user: User, callback: any) {
     function txFunction(tx: any) {
