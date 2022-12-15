@@ -187,12 +187,11 @@ export class DatabaseServiceService {
     function txFunction(tx: any) {
       var sql: string = 'DELETE FROM food WHERE id=?;';
       var options = [food.id];
-      tx.executeSql(sql, options, callback, DatabaseServiceService.errorHandler);
+      tx.executeSql(sql, options, () => {
+        console.log("Success: Food deleted.");
+      }, DatabaseServiceService.errorHandler);
     }
-
-    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
-      console.log('Success: food deleted successfully');
-    });
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
   }
 
 
@@ -200,12 +199,10 @@ export class DatabaseServiceService {
     function txFunction(tx: any) {
       let sql: string = "INSERT INTO activities(activityName, calories, type) VALUES (?, ?, ?)";
       let options = [activity.activityName, activity.calories, activity.type];
-
       tx.executeSql(sql, options, () => {
         console.info("Success: insert activity record successful");
       }, DatabaseServiceService.errorHandler);
     }
-
     this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
   }
 
@@ -255,6 +252,7 @@ export class DatabaseServiceService {
       function txFunction(tx: any) {
         let sql = "SELECT * FROM users WHERE id=?;";
         tx.executeSql(sql, options, (tx: any, results: { rows: string | any[]; }) => {
+          console.log(results);
           if (results.rows.length > 0) {
             let row = results.rows[0];
             user = new User(row['firstName'], row['lastName'], row['userGender'], row ['userHeight'], row['userWeight'], row['userGoalWeight'], row['dateCreated']);

@@ -27,6 +27,7 @@ export class HomepageComponentComponent implements OnInit{
   user: User = new User();
   foods: any[] = [];
   activities: any[] = [];
+  id: number = -1;
 
   currentDate = Date.now();
 
@@ -39,11 +40,10 @@ export class HomepageComponentComponent implements OnInit{
   netCalories = -1;
 
   ngOnInit(): void {
+    let tempId: any = localStorage.getItem('userId');
+    this.id = parseInt(tempId);
 
-    let id: number;
-    id = parseInt(localStorage.getItem('userId')||"1");
-
-    this.database._selectUser(id)
+    this.database._selectUser(this.id)
       .then((data:any)=> {
 
         this.user = data;
