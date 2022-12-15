@@ -8,7 +8,9 @@
         <li class="list-group-item" *ngFor="let activity of activities">
           <div class="row">
             <div class="col-sm-4">
-              {{activity.activityName}}
+              Activity: {{activity.activityName}}<br>
+              Calories Burned: {{activity.calories}}<br>
+              Type of Activity: {{activity.type}}<br>
             </div>
             <div class="col-sm-4">
               <button type="button" id="btnDelete" name="btnDelete"

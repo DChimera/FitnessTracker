@@ -235,7 +235,7 @@ export class DatabaseServiceService {
 
   public deleteActivity(activity: Activity, callback: () => void) {
     function txFunction(tx: any) {
-      var sql: string = 'DELETE FROM activity WHERE id=?;';
+      var sql: string = 'DELETE FROM activities WHERE id=?;';
       var options = [activity.id];
       tx.executeSql(sql, options, callback, DatabaseServiceService.errorHandler);
     }

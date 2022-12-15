@@ -27,18 +27,10 @@ export class ActivityJournalComponent implements OnInit {
       })
   }
 
-  btnAdd_click() {
-
-    this.database.insertActivity(this.objActivity, () => (
-      console.log("Activity record added successfully")
-    ));
-    alert("Record added successfully");
-  }
-
-
-  btnDelete_click(activity: any){
+  btnDelete_click(activity: any) {
     this.database.deleteActivity(activity, ()=>{
-      alert("Food deleted successfully.");
+      alert("Activity deleted successfully");
     });
+    this.ngOnInit();
   }
 }
