@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import {WebcamModule} from "ngx-webcam";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +13,9 @@ import { RoutingComponentComponent } from './components/routing-component/routin
 import { FoodComponent } from './components/food/food.component';
 import { FormsModule } from "@angular/forms";
 import { AdduserComponent } from './components/adduser/adduser.component';
+import { CameraComponent } from './components/camera/camera.component';
+
+
 
 @NgModule({
 
@@ -24,12 +28,14 @@ import { AdduserComponent } from './components/adduser/adduser.component';
     ActivityJournalComponent,
     RoutingComponentComponent,
     FoodComponent,
-    AdduserComponent
+    AdduserComponent,
+    CameraComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    WebcamModule
   ],
   providers: [],
   bootstrap: [AppComponent]
