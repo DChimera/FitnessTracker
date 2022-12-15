@@ -8,14 +8,14 @@ export class Food{
   userId: any=null;
   dateEaten: any=null;
 
-  constructor(name?: string, calories?: number, fatGrams?: number, carbGrams?: number, proteinGrams?: number, userId?: number, dateEaten?: Date){
+  constructor(name?: string, calories?: number, fatGrams?: number, carbGrams?: number, proteinGrams?: number/*, userId?: number, dateEaten?: Date*/){
     this.foodName = name;
     this.calories = calories;
     this.fatGrams = fatGrams;
     this.carbGrams = carbGrams;
     this.proteinGrams = proteinGrams;
-    this.userId = userId;
-    this.dateEaten = dateEaten;
+/*    this.userId = userId;
+    this.dateEaten = dateEaten;*/
   }
 }
 
