@@ -151,10 +151,23 @@
 
   </div>
 
-  <a class="nav-link" routerLink="">
+  <div class="mb-3">
+    <label for="txtWeight" class="form-label">Update Your Weight</label>
+    <input type="number" id="txtWeight" name="txtPrice"
+           class="form-control"
+           [(ngModel)]="user.userWeight">
+  </div>
 
-    <button>Logout</button>
+  <button type="button" id="btnChangeWeight" name="btnChangeWeight"
+          class="btn btn-primary"
+          (click)="btnChangeWeight_click()">
+    Change Weight
+  </button>
 
-  </a>
+  <button type="button" id="btnUpdate" name="btnUpdate"
+          class="btn btn-primary"
+          (click)="btnLogout_click()">
+    Update
+  </button>
 
 </section>
