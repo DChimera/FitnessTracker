@@ -6,6 +6,7 @@ import { FoodJournalComponent } from "./components/food-journal/food-journal.com
 import { HomepageComponentComponent } from "./components/homepage-component/homepage-component.component";
 import { LoginComponentComponent } from "./components/login-component/login-component.component";
 import { AdduserComponent } from "./components/adduser/adduser.component";
+import {CameraComponent} from "./components/camera/camera.component";
 
 
 
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path:'about', component: AboutComponentComponent},
   {path:'activity', component: ActivityJournalComponent},
   {path:'home', component: HomepageComponentComponent},
-  {path:'food', component: FoodJournalComponent}
+  {path:'food', component: FoodJournalComponent},
+  {path:'camera', component: CameraComponent}
 ];
 
 @NgModule({
