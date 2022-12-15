@@ -97,7 +97,7 @@ export class DatabaseServiceService {
 
   public insertFood(food: Food, callback: any){
     function txFunction(tx: any) {
-      let sql: string = "INSERT INTO foods(foodName, calories, fatGrams, carbGrams, proteinGrams, userId, dateEaten) VALUES (?, ?, ?, ?, ? , ?)";
+      let sql: string = 'INSERT INTO foods(foodName, calories, fatGrams, carbGrams, proteinGrams, userId, dateEaten) VALUES (?,?,?,?,?,?,?)';
       let options = [food.foodName, food.calories, food.fatGrams, food.carbGrams, food.proteinGrams, food.userId, food.dateEaten];
 
       tx.executeSql(sql, options, () => {
@@ -105,7 +105,9 @@ export class DatabaseServiceService {
       }, DatabaseServiceService.errorHandler);
     }
 
-    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback, ()=>{
+      console.log('Success: insert transaction successful');
+    });
   }
 
   public selectFoodByDate(): Promise<any> {
@@ -146,7 +148,7 @@ export class DatabaseServiceService {
           if (results.rows.length > 0) {
             for (let i = 0; i < results.rows.length; i++) {
               let row = results.rows[i];
-              let pdt = new Food(row['foodName'], row['calories'], row['fatGrams'], row['carbGrams'], row['proteinGrams'],);
+              let pdt = new Food(row['foodName'], row['calories'], row['fatGrams'], row['carbGrams'], row['proteinGrams'], row['dateEaten'], row['userId']);
               pdt.id = row['id'];
               foods.push(pdt);
             }
