@@ -13,7 +13,6 @@ export class CameraComponent implements OnInit {
 // toggle webcam on/off
   public showWebcam = true;
   public multipleWebcamsAvailable = false;
-  public deviceId: string;
   public videoOptions: MediaTrackConstraints = {
 // width: {ideal: 1024},
 // height: {ideal: 576}

@@ -4,9 +4,8 @@ export class Activity{
   calories: any = null;
   type: any = null;
   userId: any = null;
-  datePerformed: any = null;
 
-  constructor(activityName: string, calories: number, type: string, userId: number, datePerformed: Date){
+  constructor(activityName?: string, calories?: number, type?: string, userId?: number){
     this.activityName = activityName;
     this.calories = calories;
     this.type = type;

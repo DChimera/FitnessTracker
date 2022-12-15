@@ -194,6 +194,17 @@ export class DatabaseServiceService {
       console.info("Success: insert activity record successful");
     });
   }
+  public deleteActivity(activity: Activity, callback: () => void) {
+    function txFunction(tx: any) {
+      var sql: string = 'DELETE FROM activity WHERE id=?;';
+      var options = [activity.id];
+      tx.executeSql(sql, options, callback, DatabaseServiceService.errorHandler);
+    }
+
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
+      console.log('Success: food deleted successfully');
+    });
+  }
 
   public selectActivitiesByDate(): Promise<any> {
     let options: string[] = [];
