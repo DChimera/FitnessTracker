@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FoodserviceService} from "../../services/foodservice.service";
 import {Food} from "../../models/food.model";
 import {DatabaseServiceService} from "../../services/database-service.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-food',
@@ -9,9 +10,9 @@ import {DatabaseServiceService} from "../../services/database-service.service";
   styleUrls: ['./food.component.css']
 })
 export class FoodComponent implements OnInit {
-  objFood: Food = new Food();
+  objFood: Food = new Food("",0,0,0,0);
 
-  constructor(private database: DatabaseServiceService) {
+  constructor(private database: DatabaseServiceService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -19,9 +20,9 @@ export class FoodComponent implements OnInit {
   }
 
   btnAdd_click() {
-    this.database.insertFood(this.objFood, () => (
-      console.log("Food record added successfully")
-    ));
-    alert("Record added successfully");
+    this.database.insertFood(this.objFood, () => {
+      alert("Food added.");
+      this.router.navigate(['/food']);
+    });
   }
 }

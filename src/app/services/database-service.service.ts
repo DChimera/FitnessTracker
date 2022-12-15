@@ -47,15 +47,23 @@ export class DatabaseServiceService {
         console.info("Success: create table users successful");
       }, DatabaseServiceService.errorHandler);
 
+      /*var options: string[] = [];
+      sql = "DROP TABLE IF EXISTS food"
+
+      tx.executeSql(sql, options, () => {
+        console.info("Success: drop table food successful")
+      }, DatabaseServiceService.errorHandler);
+      */
+      var options: string[] = [];
       sql = "CREATE TABLE IF NOT EXISTS food(" +
         " foodId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
         " foodName VARCHAR(60) NOT NULL," +
-        " calories DOUBLE NOT NULL," +
-        " fatGrams DOUBLE NOT NULL," +
-        " carbGrams DOUBLE NOT NULL," +
-        " proteinGrams DOUBLE NOT NULL," +
-        " userId INTEGER NOT NULL," +
-        " dateEaten DATETIME NOT NULL," +
+        " calories INTEGER NOT NULL," +
+        " fatGrams INTEGER NOT NULL," +
+        " carbGrams INTEGER NOT NULL," +
+        " proteinGrams INTEGER NOT NULL," +
+        " userId INTEGER," +
+        " dateEaten DATETIME," +
         " FOREIGN KEY(userId) REFERENCES users(userId));";
 
       tx.executeSql(sql, options, () => {
@@ -117,15 +125,17 @@ export class DatabaseServiceService {
 
   public insertFood(food: Food, callback: any){
     function txFunction(tx: any) {
-      let sql: string = 'INSERT INTO food(foodName, calories, fatGrams, carbGrams, proteinGrams, userId, dateEaten) VALUES (?,?,?,?,?,?,?)';
-      let options = [food.foodName, food.calories, food.fatGrams, food.carbGrams, food.proteinGrams, food.userId, food.dateEaten];
+      let sql: string = "INSERT INTO food(foodName, calories, fatGrams, carbGrams, proteinGrams) VALUES (?,?,?,?,?);";
+      let options = [food.foodName, food.calories, food.fatGrams, food.carbGrams, food.proteinGrams];
 
       tx.executeSql(sql, options, () => {
         console.info("Success: food user record successful");
       }, DatabaseServiceService.errorHandler);
     }
 
-    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
+      console.log("Success: insert transaction successful");
+    });
   }
 
 /*
