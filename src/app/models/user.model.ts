@@ -9,7 +9,7 @@ export class User {
   userGoalWeight: any = null;
   dateCreated: any = null;
 
-  constructor(userName: string, firstName: string, lastName: string, userGender: string, userHeight: number, userWeight: number, userGoalWeight?: number) {
+  constructor(userName?: string, firstName?: string, lastName?: string, userGender?: string, userHeight?: number, userWeight?: number, userGoalWeight?: number) {
     this.userName = userName;
     this.firstName = firstName;
     this.lastName = lastName;

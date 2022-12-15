@@ -24,7 +24,7 @@ export class HomepageComponentComponent implements OnInit{
               )
   {   }
 
-  user: any = null;
+  user: User = new User();
   foods: any[] = [];
   activities: any[] = [];
 
@@ -72,8 +72,8 @@ export class HomepageComponentComponent implements OnInit{
       console.error(e);
     });
 
-    this.netCaloriesTarget = this.goalsService.calcNetCalorieGoal(this.user.userGoalWeight, this.user.currentWeight,
-      this.user.currentHeight, this.user.userGender);
+    this.netCaloriesTarget = this.goalsService.calcNetCalorieGoal(this.user.userGoalWeight, this.user.userWeight,
+      this.user.userHeight, this.user.userGender);
     this.goalProteinIntake = this.goalsService.calcProteinGoals(this.user.userWeight);
 
     this.caloriesIn = this.netIntakes.calculateTotalCaloriesIn(this.foods);
@@ -84,7 +84,7 @@ export class HomepageComponentComponent implements OnInit{
 
   btnChangeWeight_click() {
 
-    this.user.currentWeight = $("#txtWeight").val();
+    this.user.userWeight = $("#txtWeight").val();
     this.database.updateUser(this.user, ()=> {
 
       console.info("Weight updated successfully");

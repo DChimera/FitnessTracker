@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
 import { Food } from '../models/food.model';
-import {Activity} from "../models/activity.model";
-//import { Activity } from '../models/activity.model';
-
-
+import { Activity } from "../models/activity.model";
 
 declare function openDatabase(shortName: string, version: string, displayName: string,
                               dbSize: number, dbCreateSuccess: () => void): any;
@@ -233,15 +230,15 @@ export class DatabaseServiceService {
 
   public _selectUser(id: number): Promise<any> {
     let options = [id];
-    let user: User;
+    let user: User = new User();
     return new Promise((resolve, reject) => {
       function txFunction(tx: any) {
-        let sql = "SELECT * FROM products WHERE id=?;";
+        let sql = "SELECT * FROM users WHERE id=?;";
         tx.executeSql(sql, options, (tx: any, results: { rows: string | any[]; }) => {
           if (results.rows.length > 0) {
             let row = results.rows[0];
             user = new User(row['firstName'], row['lastName'], row['userGender'], row ['userHeight'], row['userWeight'], row['userGoalWeight'], row['dateCreated']);
-            user.id = row['id'];
+            user.id = row['userId'];
             resolve(user);
           }
           else {
