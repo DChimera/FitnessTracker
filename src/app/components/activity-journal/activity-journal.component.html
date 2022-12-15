@@ -48,13 +48,6 @@
                    [(ngModel)]="objActivity.calories" #calories="ngModel">
           </div>
 
-          <div class="mb-3">
-            <label for="dtpDatePerformed" class="form-label"></label>
-            <input type="datetime" id="dtpDatePerformed" name="dtpDatePerformed"
-                   class="form-control"
-                   [(ngModel)]="objActivity.datePerformed">
-          </div>
-
           <div *ngIf="calories.invalid && (calories.dirty || calories.touched)"
                class="alert">
             <small *ngIf="calories.errors?.['required']" [ngClass]="'validation-error'">
@@ -106,12 +99,7 @@
           <div class="row">
             <div class="col-sm-4">
               {{activity.activityName}}
-            </div>  <!--This modify button could be added, but it needs a modify component-->
-            <!--            <div class="col-sm-4">
-                          <button type="button" id="btnModify" name="btnModify"
-                                  class="btn btn-primary btn-sm me-4" (click)="btnModify_click(food)"
-                          >Modify</button>
-                        </div>-->
+            </div>
             <div class="col-sm-4">
               <button type="button" id="btnDelete" name="btnDelete"
                       class="btn btn-danger btn-sm me-4" (click)="btnDelete_click(activity)"

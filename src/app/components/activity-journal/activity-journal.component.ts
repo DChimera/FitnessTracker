@@ -17,7 +17,7 @@ export class ActivityJournalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.database.selectAllFood()
+    this.database.selectAllActivities()
       .then(data=> {
         this.activities=data;
         console.info(data);
@@ -28,13 +28,14 @@ export class ActivityJournalComponent implements OnInit {
   }
 
   btnAdd_click() {
-    let userID = localStorage.getItem('userId')||'1';
-    this.objActivity.userId = parseInt(userID);
+
     this.database.insertActivity(this.objActivity, () => (
       console.log("Activity record added successfully")
     ));
     alert("Record added successfully");
   }
+
+
   btnDelete_click(activity: any){
     this.database.deleteActivity(activity, ()=>{
       alert("Food deleted successfully.");

@@ -54,7 +54,7 @@ export class HomepageComponentComponent implements OnInit{
 
     });
 
-      this.database.selectFoodByDate()
+      this.database.selectAllFood()
         .then((data: any)=> {
 
           this.foods = data;
@@ -63,7 +63,7 @@ export class HomepageComponentComponent implements OnInit{
         console.error(e);
         });
 
-    this.database.selectActivitiesByDate()
+    this.database.selectAllActivities()
       .then((data: any)=> {
 
         this.activities = data;
