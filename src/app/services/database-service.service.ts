@@ -179,7 +179,7 @@ export class DatabaseServiceService {
   public insertActivity(activity: Activity, callback: any){
     function txFunction(tx: any) {
       let sql: string = "INSERT INTO activities(activityName, calories, type, userId) VALUES (?, ?, ?, ?)";
-      let options = [activity.activityName, activity.calories, activity.type, activity.userId];
+      let options = [activity.activityName, activity.calories, activity.type, activity.userId, activity.datePerformed];
 
       tx.executeSql(sql, options, () => {
         console.info("Success: insert activity record successful");

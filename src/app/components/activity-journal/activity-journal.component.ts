@@ -2,6 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {Activity} from "../../models/activity.model";
 import {DatabaseServiceService} from "../../services/database-service.service";
 import {Router} from "@angular/router";
+import {parse} from "@angular/compiler-cli/linker/babel/src/babel_core";
 
 @Component({
   selector: 'app-activity-journal',
@@ -27,6 +28,8 @@ export class ActivityJournalComponent implements OnInit {
   }
 
   btnAdd_click() {
+    let userID = localStorage.getItem('userId')||'1';
+    this.objActivity.userId = parseInt(userID);
     this.database.insertActivity(this.objActivity, () => (
       console.log("Activity record added successfully")
     ));
