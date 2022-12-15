@@ -128,6 +128,7 @@ export class DatabaseServiceService {
     this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
   }
 
+/*
   public selectFoodByDate(): Promise<any> {
     let options: string[] = [];
     let foods: Food[] = [];
@@ -138,7 +139,7 @@ export class DatabaseServiceService {
           if (results.rows.length > 0) {
             for (let i = 0; i < results.rows.length; i++) {
               let row = results.rows[i];
-              let pdt = new Food(row['foodName'], row['calories'], row['fatGrams'], row['carbGrams'], row['proteinGrams'], row['dateEaten']);
+              let pdt = new Food(row['foodName'], row['calories'], row['fatGrams'], row['carbGrams'], row['proteinGrams']/!*, row['dateEaten']*!/);
               pdt.id = row['id'];
               foods.push(pdt);
             }
@@ -154,6 +155,7 @@ export class DatabaseServiceService {
       });
     });
   }
+*/
 
 
   public selectAllFood(): Promise<any> {
@@ -166,7 +168,7 @@ export class DatabaseServiceService {
           if (results.rows.length > 0) {
             for (let i = 0; i < results.rows.length; i++) {
               let row = results.rows[i];
-              let pdt = new Food(row['foodName'], row['calories'], row['fatGrams'], row['carbGrams'], row['proteinGrams'], row['dateEaten'], row['userId']);
+              let pdt = new Food(row['foodName'], row['calories'], row['fatGrams'], row['carbGrams'], row['proteinGrams']/*, row['dateEaten'], row['userId']*/);
               pdt.id = row['id'];
               foods.push(pdt);
             }
