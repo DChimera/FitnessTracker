@@ -54,16 +54,16 @@ export class HomepageComponentComponent implements OnInit{
 
     });
 
-      this.database.selectAllFood()
+/*      this.database.selectFoodByDate()
         .then((data: any)=> {
 
           this.foods = data;
 
         }).catch((e: any)=> {
         console.error(e);
-        });
+        });*/
 
-    this.database.selectAllActivities()
+    this.database.selectActivitiesByDate()
       .then((data: any)=> {
 
         this.activities = data;

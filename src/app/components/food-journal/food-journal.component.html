@@ -98,7 +98,7 @@
           </small>
         </div>
 
-        <div class="mb-3">
+        <!--<div class="mb-3">
           <label for="txtUserId" class="form-label">Date Eaten</label>
           <input type="text" id="txtUserId" name="txtUserId" class="form-control"
                  max="9999"
@@ -110,13 +110,15 @@
           <input type="dateTime" id="txtDateEaten" name="txtDateEaten" class="form-control"
                  max="9999"
                  [(ngModel)]="objFood.dateEaten">
-        </div>
+        </div>-->
 
-        <button type="button" id="btnAdd" name="btnAdd"
-                class="btn btn-primary"
-                (click)="btnAdd_click()" [disabled]="!foodForm.valid">
-          Add
-        </button>
+        <div class="form-group">
+          <button type="button" id="btnAdd" name="btnAdd"
+                  class="btn btn-primary"
+                  (click)="btnAdd_click()" [disabled]="!foodForm.valid">
+            Add User
+          </button>
+        </div>
       </form>
     </div>
     <p *ngIf="!foodForm.valid" [ngClass]="'validation-error'"></p>
