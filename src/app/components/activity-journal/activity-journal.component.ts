@@ -22,5 +22,5 @@ export class ActivityJournalComponent implements OnInit {
     ));
     alert("Record added successfully");
   }
-  objActivity: Activity = new Activity("",0,"");
+  objActivity: Activity = new Activity("",-1,"", -1);
 }
