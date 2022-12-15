@@ -43,14 +43,14 @@
 
           <div class="mb-3">
             <label for="txtCalories" class="form-label">Calories</label>
-            <input type="datetime" id="txtCalories" name="txtCalories" class="form-control"
+            <input type="number" id="txtCalories" name="txtCalories" class="form-control"
                    required max="9999"
                    [(ngModel)]="objActivity.calories" #calories="ngModel">
           </div>
 
           <div class="mb-3">
             <label for="dtpDatePerformed" class="form-label"></label>
-            <input type="DateTime" id="dtpDatePerformed" name="dtpDatePerformed"
+            <input type="datetime" id="dtpDatePerformed" name="dtpDatePerformed"
                    class="form-control"
                    [(ngModel)]="objActivity.datePerformed">
           </div>
