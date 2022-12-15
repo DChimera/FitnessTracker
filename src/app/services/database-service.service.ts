@@ -85,16 +85,14 @@ export class DatabaseServiceService {
 
   public insertUser(user: User, callback: any) {
     function txFunction(tx: any) {
-      let sql: string = "INSERT INTO users(userName, firstName, lastName, userHeight, userWeight, userGoalWeight, dateCreated) VALUES (?,?,?,?,?,?,?)";
+      let sql: string = "INSERT INTO users(userName, firstName, lastName, userHeight, userWeight, userGoalWeight, dateCreated) VALUES (?,?,?,?,?,?,?);";
       let options = [user.userName, user.firstName, user.lastName, user.userHeight, user. userWeight, user.userGoalWeight, user.dateCreated];
 
       tx.executeSql(sql, options, () => {
         console.info("Success: insert user record successful");
       }, DatabaseServiceService.errorHandler);
     }
-    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
-      console.info("Success: insert user record successful");
-    });
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
   }
 
   public insertFood(food: Food, callback: any){
@@ -107,9 +105,7 @@ export class DatabaseServiceService {
       }, DatabaseServiceService.errorHandler);
     }
 
-    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, () => {
-      console.info("Success: food user record successful");
-    });
+    this.db.transaction(txFunction, DatabaseServiceService.errorHandler, callback);
   }
 
   public selectFoodByDate(): Promise<any> {
@@ -257,7 +253,7 @@ export class DatabaseServiceService {
             for (let i = 0; i < results.rows.length; i++) {
               let row = results.rows[i];
               let usr = new User(row['userName'], row['firstName'], row['lastName'], row['userGender'], row['userHeight'], row['userWeight'], row['userGoalWeight']);
-              usr.id = row['id'];
+              usr.id = row['userId'];
               users.push(usr);
             }
             resolve(users);

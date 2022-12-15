@@ -26,12 +26,13 @@ export class LoginComponentComponent implements OnInit {
         console.error(err);
       });
 
-    if (activeUser !== null)
+    if (activeUser !== undefined)
     {
-      this.router.navigate(['home']);
+      //this.router.navigate(['/home']);
     }
   }
-  btnLogin_click(id: any) {
-    localStorage.setItem("userId", id);
+  btnLogin_click(id: number) {
+    localStorage.setItem("userId", id.toString());
+    this.router.navigate(['/home']);
   }
 }

@@ -10,7 +10,6 @@ import { AdduserComponent } from "./components/adduser/adduser.component";
 
 
 const routes: Routes = [
-
   {path:'', component: LoginComponentComponent},
   {path:'login', component: LoginComponentComponent},
   {path:'login/adduser', component: AdduserComponent},
